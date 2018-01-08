@@ -161,35 +161,35 @@ int cmpData(Byte *data1, Byte *data2, int dataType, int dataLen)
         dataLen = 255;
     switch (dataType)
     {
-    case DataTypeFlag::DOUBLE:
-        memcpy(&ad1, data1, dataLen);
-        memcpy(&ad2, data2, dataLen);
-        return ad1 - ad2 > 0.0 ? 1 : -1;
-        break;
-    case DataTypeFlag::FLOAT:
-        memcpy(&af1, data1, dataLen);
-        memcpy(&af2, data2, dataLen);
-        return af1 - af2 > 0.0 ? 1 : -1;
-        break;
-    case DataTypeFlag::INTEGER:
-        memcpy(&ai1, data1, dataLen);
-        memcpy(&ai2, data2, dataLen);
-        return ai1 - ai2 > 0 ? 1 : -1;
-        break;
-    case DataTypeFlag::LONG:
-        memcpy(&al1, data1, dataLen);
-        memcpy(&al2, data2, dataLen);
-        return al1 - al2 > 0 ? 1 : -1;
-        break;
-    case DataTypeFlag::DATE:
-        return 8;
-        break;
-    case DataTypeFlag::CHAR:
-    case DataTypeFlag::VARCHAR:
-        memcpy(ac1, data1, dataLen);
-        memcpy(ac2, data2, dataLen);
-        return strcmp(ac1, ac2);
-        break;
+        case DataTypeFlag::DOUBLE:
+            memcpy(&ad1, data1, dataLen);
+            memcpy(&ad2, data2, dataLen);
+            return ad1 - ad2 > 0.0 ? 1 : -1;
+            break;
+        case DataTypeFlag::FLOAT:
+            memcpy(&af1, data1, dataLen);
+            memcpy(&af2, data2, dataLen);
+            return af1 - af2 > 0.0 ? 1 : -1;
+            break;
+        case DataTypeFlag::INTEGER:
+            memcpy(&ai1, data1, dataLen);
+            memcpy(&ai2, data2, dataLen);
+            return ai1 - ai2 > 0 ? 1 : -1;
+            break;
+        case DataTypeFlag::LONG:
+            memcpy(&al1, data1, dataLen);
+            memcpy(&al2, data2, dataLen);
+            return al1 - al2 > 0 ? 1 : -1;
+            break;
+        case DataTypeFlag::DATE:
+            return 8;
+            break;
+        case DataTypeFlag::CHAR:
+        case DataTypeFlag::VARCHAR:
+            memcpy(ac1, data1, dataLen);
+            memcpy(ac2, data2, dataLen);
+            return strcmp(ac1, ac2);
+            break;
     }
 }
 
@@ -197,26 +197,26 @@ static Byte getTypeLength(int dataTypeFlag)
 {
     switch (dataTypeFlag)
     {
-    case DataTypeFlag::CHAR:
-        return 4;
-        break;
-    case DataTypeFlag::DATE:
-        return 8;
-        break;
-    case DataTypeFlag::DOUBLE:
-        return 8;
-        break;
-    case DataTypeFlag::FLOAT:
-        return 4;
-        break;
-    case DataTypeFlag::INTEGER:
-        return 4;
-        break;
-    case DataTypeFlag::LONG:
-        return 8;
-        break;
-    case DataTypeFlag::VARCHAR:
-        return 255;
-        break;
+        case DataTypeFlag::CHAR:
+            return 4;
+            break;
+        case DataTypeFlag::DATE:
+            return 8;
+            break;
+        case DataTypeFlag::DOUBLE:
+            return 8;
+            break;
+        case DataTypeFlag::FLOAT:
+            return 4;
+            break;
+        case DataTypeFlag::INTEGER:
+            return 4;
+            break;
+        case DataTypeFlag::LONG:
+            return 8;
+            break;
+        case DataTypeFlag::VARCHAR:
+            return 255;
+            break;
     }
 }

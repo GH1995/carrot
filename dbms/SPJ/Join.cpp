@@ -355,10 +355,10 @@ void Join::NestLoopJoinGetFirst(SPJItem *item)
                 if (flag)
                 {
                     /*char *str =new char[1000];
-                    DataUtil::toString(str,A_item->data[0],A_item->dataType[0]);
-                    printf("%s\n",str);
-                    DataUtil::toString(str,A_tuple->column[3].data,A_tuple->column[3].field->dataType);
-                    printf("%s\n",str);*/
+                      DataUtil::toString(str,A_item->data[0],A_item->dataType[0]);
+                      printf("%s\n",str);
+                      DataUtil::toString(str,A_tuple->column[3].data,A_tuple->column[3].field->dataType);
+                      printf("%s\n",str);*/
                     fillItem(A_tuple, A_item, item);
                     break;
                 }
@@ -605,7 +605,7 @@ void Join::fillItem(SPJItem *A_item, SPJItem *B_item, SPJItem *item)
     }
     item->use = 1;
     //}
-}
+    }
 void Join::fillItem(Tuple *A_tuple, SPJItem *B_item, SPJItem *item)
 {
     if (this->columnNum == 0)

@@ -35,13 +35,13 @@ void fillMetaSegment2(TableMeta *meta, MetaDataSegment *ms)
     parts->fieldList = new Field[16];
     int leng[] = {4, 4, 4, 4, 4, 4, 4, 4, 4, 16, 16, 16, 28, 12, 44};
     int stype[] = {DataTypeFlag::INTEGER, DataTypeFlag::INTEGER, DataTypeFlag::INTEGER, DataTypeFlag::INTEGER,
-                   DataTypeFlag::FLOAT, DataTypeFlag::FLOAT, DataTypeFlag::FLOAT, DataTypeFlag::FLOAT,
-                   DataTypeFlag::CHAR, DataTypeFlag::CHAR, DataTypeFlag::CHAR, DataTypeFlag::CHAR, DataTypeFlag::CHAR,
-                   DataTypeFlag::CHAR, DataTypeFlag::CHAR, DataTypeFlag::VARCHAR};
+        DataTypeFlag::FLOAT, DataTypeFlag::FLOAT, DataTypeFlag::FLOAT, DataTypeFlag::FLOAT,
+        DataTypeFlag::CHAR, DataTypeFlag::CHAR, DataTypeFlag::CHAR, DataTypeFlag::CHAR, DataTypeFlag::CHAR,
+        DataTypeFlag::CHAR, DataTypeFlag::CHAR, DataTypeFlag::VARCHAR};
     char name[16][MAX_TABLE_NAME_LEN] = {"L_ORDERKEY", "L_PARTKEY", "L_SUPPKEY", "L_LINENUMBER",
-                                         "L_QUANTITY", "L_EXTENDEDPRICE", "DISCOUNT", "L_TAX", "L_RETURNFLAG",
-                                         "L_LINESTATUS", "L_SHIPDATE", "L_COMMITDATE", "L_RECEIPTDATE", "L_SHIPINSTRUCT",
-                                         "L_SHIOMODE", "L_COMMENT"};
+        "L_QUANTITY", "L_EXTENDEDPRICE", "DISCOUNT", "L_TAX", "L_RETURNFLAG",
+        "L_LINESTATUS", "L_SHIPDATE", "L_COMMITDATE", "L_RECEIPTDATE", "L_SHIPINSTRUCT",
+        "L_SHIOMODE", "L_COMMENT"};
     int offset = 0;
     for (int i = 0; i < 16; i++)
     {
@@ -143,13 +143,13 @@ int writedb2(char *s, char *data)
     return 0;
 }
 /*
-int main(int argc,char** argv)
-{
-    if(argc<3)
-    {
-        printf("need more argument.\n");
-        exit(0);
-    }
+   int main(int argc,char** argv)
+   {
+   if(argc<3)
+   {
+   printf("need more argument.\n");
+   exit(0);
+   }
    writedb2(argv[1],argv[2]);
-    //readIndex();
+//readIndex();
 }*/

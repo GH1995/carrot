@@ -12,22 +12,22 @@
 #define TUPLE_HEAD_LEN 12
 class DataTypeFlag
 {
-  public:
-    static const Byte CHAR = 0x01;
-    static const Byte VARCHAR = 0x02;
-    static const Byte INTEGER = 0x03;
-    static const Byte LONG = 0x04;
-    static const Byte FLOAT = 0x05;
-    static const Byte DOUBLE = 0x06;
-    static const Byte DATE = 0x7;
+    public:
+        static const Byte CHAR = 0x01;
+        static const Byte VARCHAR = 0x02;
+        static const Byte INTEGER = 0x03;
+        static const Byte LONG = 0x04;
+        static const Byte FLOAT = 0x05;
+        static const Byte DOUBLE = 0x06;
+        static const Byte DATE = 0x7;
 };
 
 class Constraint
 {
-  public:
-    static const Byte primaryKey = 0x01;
-    static const Byte unique = 0x02;
-    static const Byte isAddition = 0x04;
+    public:
+        static const Byte primaryKey = 0x01;
+        static const Byte unique = 0x02;
+        static const Byte isAddition = 0x04;
 };
 
 //4 +64 + 4
@@ -69,25 +69,25 @@ typedef struct TableMeta
 
 class DType
 {
-  public:
-    DType(Byte dt, int len) : dataType(dt), length(len){};
-    Byte getDataType() { return dataType; }
-    int getLength() { return length; }
+    public:
+        DType(Byte dt, int len) : dataType(dt), length(len){};
+        Byte getDataType() { return dataType; }
+        int getLength() { return length; }
 
-  private:
-    Byte dataType;
-    int length;
+    private:
+        Byte dataType;
+        int length;
 };
 
 namespace DataType
 {
-static const DType CHAR(DataTypeFlag::CHAR, 4);
-static const DType VARCAHR(DataTypeFlag::VARCHAR, MAX_VARCHAR_LEN);
-static const DType INTEGER(DataTypeFlag::INTEGER, 4);
-static const DType LONG(DataTypeFlag::LONG, 8);
-static const DType FLOAT(DataTypeFlag::FLOAT, 4);
-static const DType DOUBLE(DataTypeFlag::DOUBLE, 8);
-static const DType Date(DataTypeFlag::DATE, 8);
+    static const DType CHAR(DataTypeFlag::CHAR, 4);
+    static const DType VARCAHR(DataTypeFlag::VARCHAR, MAX_VARCHAR_LEN);
+    static const DType INTEGER(DataTypeFlag::INTEGER, 4);
+    static const DType LONG(DataTypeFlag::LONG, 8);
+    static const DType FLOAT(DataTypeFlag::FLOAT, 4);
+    static const DType DOUBLE(DataTypeFlag::DOUBLE, 8);
+    static const DType Date(DataTypeFlag::DATE, 8);
 }
 
 //static Byte getTypeLength(int dataTypeFlag)
@@ -95,27 +95,27 @@ static Byte getTypeLength(Byte dataTypeFlag) // seems to be a bug
 {
     switch (dataTypeFlag)
     {
-    case DataTypeFlag::CHAR:
-        return 4;
-        break;
-    case DataTypeFlag::DATE:
-        return 16;
-        break;
-    case DataTypeFlag::DOUBLE:
-        return 8;
-        break;
-    case DataTypeFlag::FLOAT:
-        return 4;
-        break;
-    case DataTypeFlag::INTEGER:
-        return 4;
-        break;
-    case DataTypeFlag::LONG:
-        return 8;
-        break;
-    case DataTypeFlag::VARCHAR:
-        return 255;
-        break;
+        case DataTypeFlag::CHAR:
+            return 4;
+            break;
+        case DataTypeFlag::DATE:
+            return 16;
+            break;
+        case DataTypeFlag::DOUBLE:
+            return 8;
+            break;
+        case DataTypeFlag::FLOAT:
+            return 4;
+            break;
+        case DataTypeFlag::INTEGER:
+            return 4;
+            break;
+        case DataTypeFlag::LONG:
+            return 8;
+            break;
+        case DataTypeFlag::VARCHAR:
+            return 255;
+            break;
     }
 }
 

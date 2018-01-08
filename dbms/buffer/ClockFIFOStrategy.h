@@ -1,8 +1,8 @@
 #ifndef CLOCKFIFOSTRATEGY_H_INCLUDED
 #define CLOCKFIFOSTRATEGY_H_INCLUDED
 #include "BufferManager.h"
- class ClockFIFOStrategy:public BufferStrategy
- {
+class ClockFIFOStrategy:public BufferStrategy
+{
     public:
         ClockFIFOStrategy();
         void initialize( std::queue<BufferFrame*>*& que,std::map<Addr,BufferFrame*>*& pageMap);
@@ -14,7 +14,7 @@
         StrategyInBuffer getStrategy();
     private:
         std::set<Addr>* pageSet;
- };
+};
 
 
 #endif // CLOCKFIFOSTRATEGY_H_INCLUDED

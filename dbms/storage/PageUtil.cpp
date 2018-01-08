@@ -53,21 +53,21 @@ Addr PageUtil::allocSpace(Page &page, int len)
         addr = pos + length;
     }
     /*
-    if(k!=findk&&k==page.usedLen)
-    {
-        if(PAGE_SIZE-addr>page.maxLen)page.maxLen=PAGE_SIZE-addr;
-    }*/
+       if(k!=findk&&k==page.usedLen)
+       {
+       if(PAGE_SIZE-addr>page.maxLen)page.maxLen=PAGE_SIZE-addr;
+       }*/
     if (findk != 0)
         k = findk;
     if (k < page.usedLen)
     {
         listMove(k, 1, true, page);
         /*
-        for(int j=page.usedLen-1;j>=k;j--)
-        {
-            page.usedByteList[j+1].addr=page.usedByteList[j].addr;
-            page.usedByteList[j+1].len=page.usedByteList[j].len;
-        }*/
+           for(int j=page.usedLen-1;j>=k;j--)
+           {
+           page.usedByteList[j+1].addr=page.usedByteList[j].addr;
+           page.usedByteList[j+1].len=page.usedByteList[j].len;
+           }*/
         //page.usedLen++;
         page.usedByteList[k].addr = addr;
         page.usedByteList[k].len = len;
@@ -179,17 +179,17 @@ bool PageUtil::freeSpace(Page &page, PageAddr addr, int len)
     }
     // 如果没找到，一定有k=pageUsedLen,循环不会进入
     /*
-    for(int j=k;j<page.usedLen;j++)
-    {
-        page.usedByteList[j].addr=page.usedByteList[j+1].addr;
-        page.usedByteList[j].len=page.usedByteList[j+1].len;
-    }
-    if(pos==addr)
-    {
-        page.usedLen--;
-        page.usedByte-=length;
-        return true;
-    }*/
+       for(int j=k;j<page.usedLen;j++)
+       {
+       page.usedByteList[j].addr=page.usedByteList[j+1].addr;
+       page.usedByteList[j].len=page.usedByteList[j+1].len;
+       }
+       if(pos==addr)
+       {
+       page.usedLen--;
+       page.usedByte-=length;
+       return true;
+       }*/
 
     return false;
 }

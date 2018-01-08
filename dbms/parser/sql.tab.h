@@ -45,33 +45,33 @@ extern int yydebug;
 char *filename;
 
 typedef struct YYLTYPE {
-  int first_line;
-  int first_column;
-  int last_line;
-  int last_column;
-  char *filename;
+    int first_line;
+    int first_column;
+    int last_line;
+    int last_column;
+    char *filename;
 } YYLTYPE;
 # define YYLTYPE_IS_DECLARED 1
 
-# define YYLLOC_DEFAULT(Current, Rhs, N)				\
-    do									\
-      if (N)                                                            \
-	{								\
-	  (Current).first_line   = YYRHSLOC (Rhs, 1).first_line;	\
-	  (Current).first_column = YYRHSLOC (Rhs, 1).first_column;	\
-	  (Current).last_line    = YYRHSLOC (Rhs, N).last_line;		\
-	  (Current).last_column  = YYRHSLOC (Rhs, N).last_column;	\
-	  (Current).filename     = YYRHSLOC (Rhs, 1).filename;	        \
-	}								\
-      else								\
-	{ /* empty RHS */						\
-	  (Current).first_line   = (Current).last_line   =		\
-	    YYRHSLOC (Rhs, 0).last_line;				\
-	  (Current).first_column = (Current).last_column =		\
-	    YYRHSLOC (Rhs, 0).last_column;				\
-	  (Current).filename  = NULL;					\
-	}								\
-    while (0)
+# define YYLLOC_DEFAULT(Current, Rhs, N)                \
+    do                                  \
+    if (N)                                                            \
+{                               \
+    (Current).first_line   = YYRHSLOC (Rhs, 1).first_line;    \
+    (Current).first_column = YYRHSLOC (Rhs, 1).first_column;  \
+    (Current).last_line    = YYRHSLOC (Rhs, N).last_line;     \
+    (Current).last_column  = YYRHSLOC (Rhs, N).last_column;   \
+    (Current).filename     = YYRHSLOC (Rhs, 1).filename;          \
+}                               \
+else                              \
+{ /* empty RHS */                       \
+    (Current).first_line   = (Current).last_line   =      \
+    YYRHSLOC (Rhs, 0).last_line;                \
+    (Current).first_column = (Current).last_column =      \
+    YYRHSLOC (Rhs, 0).last_column;              \
+    (Current).filename  = NULL;                   \
+}                               \
+while (0)
 
 #ifndef YY_TYPEDEF_YY_SCANNER_T
 #define YY_TYPEDEF_YY_SCANNER_T
@@ -85,8 +85,8 @@ struct psql_state;
 /* Token type.  */
 #ifndef YYTOKENTYPE
 # define YYTOKENTYPE
-  enum yytokentype
-  {
+enum yytokentype
+{
     NAME = 258,
     STRING = 259,
     INTNUM = 260,
@@ -324,7 +324,7 @@ struct psql_state;
     FDATE_ADD = 492,
     FDATE_SUB = 493,
     FCOUNT = 494
-  };
+};
 #endif
 
 /* Value type.  */
@@ -334,10 +334,10 @@ union YYSTYPE
 {
 #line 70 "sql.y" /* yacc.c:1909  */
 
-	int intval;
-	double floatval;
-	char *strval;
-	int subtok;
+    int intval;
+    double floatval;
+    char *strval;
+    int subtok;
 
 #line 343 "sql.tab.h" /* yacc.c:1909  */
 };
@@ -352,10 +352,10 @@ typedef union YYSTYPE YYSTYPE;
 typedef struct YYLTYPE YYLTYPE;
 struct YYLTYPE
 {
-  int first_line;
-  int first_column;
-  int last_line;
-  int last_column;
+    int first_line;
+    int first_column;
+    int last_line;
+    int last_column;
 };
 # define YYLTYPE_IS_DECLARED 1
 # define YYLTYPE_IS_TRIVIAL 1

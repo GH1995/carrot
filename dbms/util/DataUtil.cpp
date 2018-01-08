@@ -10,30 +10,30 @@ void DataUtil::parseFromString(void *data, char *str, Byte dataTypeFlag, int len
     long long *a4 = 0;
     switch (dataTypeFlag)
     {
-    case DataTypeFlag::DOUBLE:
-        a1 = reinterpret_cast<double *>(data);
-        *a1 = atof(str);
-        break;
-    case DataTypeFlag::FLOAT:
-        a2 = reinterpret_cast<float *>(data);
-        *a2 = atof(str);
-        break;
-    case DataTypeFlag::INTEGER:
-        a3 = reinterpret_cast<int *>(data);
-        *a3 = atoi(str);
-        break;
-    case DataTypeFlag::LONG:
-        a4 = reinterpret_cast<long long *>(data);
-        *a4 = atoll(str);
-        break;
-    case DataTypeFlag::CHAR:
-        memcpy(data, str, len);
-        break;
-    case DataTypeFlag::VARCHAR:
-        memcpy(data, str, len);
-        break;
-    case DataTypeFlag::DATE:
-        break;
+        case DataTypeFlag::DOUBLE:
+            a1 = reinterpret_cast<double *>(data);
+            *a1 = atof(str);
+            break;
+        case DataTypeFlag::FLOAT:
+            a2 = reinterpret_cast<float *>(data);
+            *a2 = atof(str);
+            break;
+        case DataTypeFlag::INTEGER:
+            a3 = reinterpret_cast<int *>(data);
+            *a3 = atoi(str);
+            break;
+        case DataTypeFlag::LONG:
+            a4 = reinterpret_cast<long long *>(data);
+            *a4 = atoll(str);
+            break;
+        case DataTypeFlag::CHAR:
+            memcpy(data, str, len);
+            break;
+        case DataTypeFlag::VARCHAR:
+            memcpy(data, str, len);
+            break;
+        case DataTypeFlag::DATE:
+            break;
     }
 }
 void DataUtil::toString(char *str, void *data, Byte dataTypeFlag)
@@ -44,30 +44,30 @@ void DataUtil::toString(char *str, void *data, Byte dataTypeFlag)
     long al = 0l;
     switch (dataTypeFlag)
     {
-    case DataTypeFlag::DOUBLE:
-        memcpy(&ad, data, getTypeLength(dataTypeFlag));
-        sprintf(str, "%llf", data);
-        break;
-    case DataTypeFlag::FLOAT:
-        memcpy(&af, data, getTypeLength(dataTypeFlag));
-        sprintf(str, "%f", af);
-        break;
-    case DataTypeFlag::INTEGER:
-        memcpy(&ai, data, getTypeLength(dataTypeFlag));
-        sprintf(str, "%d", ai);
-        break;
-    case DataTypeFlag::LONG:
-        memcpy(&al, data, getTypeLength(dataTypeFlag));
-        sprintf(str, "%lld", al);
-        break;
-    case DataTypeFlag::CHAR:
-        sprintf(str, "%s", data);
-        break;
-    case DataTypeFlag::VARCHAR:
-        sprintf(str, "%s", data);
-        break;
-    case DataTypeFlag::DATE:
-        break;
+        case DataTypeFlag::DOUBLE:
+            memcpy(&ad, data, getTypeLength(dataTypeFlag));
+            sprintf(str, "%llf", data);
+            break;
+        case DataTypeFlag::FLOAT:
+            memcpy(&af, data, getTypeLength(dataTypeFlag));
+            sprintf(str, "%f", af);
+            break;
+        case DataTypeFlag::INTEGER:
+            memcpy(&ai, data, getTypeLength(dataTypeFlag));
+            sprintf(str, "%d", ai);
+            break;
+        case DataTypeFlag::LONG:
+            memcpy(&al, data, getTypeLength(dataTypeFlag));
+            sprintf(str, "%lld", al);
+            break;
+        case DataTypeFlag::CHAR:
+            sprintf(str, "%s", data);
+            break;
+        case DataTypeFlag::VARCHAR:
+            sprintf(str, "%s", data);
+            break;
+        case DataTypeFlag::DATE:
+            break;
     }
 }
 void DataUtil::str2col(char *str, Column &col)
@@ -100,44 +100,44 @@ int DataUtil::cmpData(Byte *data1, Byte *data2, int dataType, int dataLen)
         dataLen = 255;
     switch (dataType)
     {
-    case DataTypeFlag::DOUBLE:
-        memcpy(&ad1, data1, dataLen);
-        memcpy(&ad2, data2, dataLen);
-        if (ad1 == ad2)
-            return 0;
-        return (ad1 - ad2) > 0.0 ? 1 : -1;
-        break;
-    case DataTypeFlag::FLOAT:
-        memcpy(&af1, data1, dataLen);
-        memcpy(&af2, data2, dataLen);
-        //   printf("compare %f and %f result %d\n",af1,af2,(af1-af2)>0.0?1:-1);
-        if (af1 == af2)
-            return 0;
-        return (af1 - af2) > 0.0 ? 1 : -1;
-        break;
-    case DataTypeFlag::INTEGER:
-        memcpy(&ai1, data1, dataLen);
-        memcpy(&ai2, data2, dataLen);
-        if (ai1 == ai2)
-            return 0;
-        //printf("cmp %d %d\n",ai1,ai2);
-        return (ai1 - ai2) > 0 ? 1 : -1;
-        break;
-    case DataTypeFlag::LONG:
-        memcpy(&al1, data1, dataLen);
-        memcpy(&al2, data2, dataLen);
-        if (al1 == al2)
-            return 0;
-        return (al1 - al2) > 0 ? 1 : -1;
-        break;
-    case DataTypeFlag::DATE:
-        return 8;
-        break;
-    case DataTypeFlag::CHAR:
-    case DataTypeFlag::VARCHAR:
-        memcpy(ac1, data1, dataLen);
-        memcpy(ac2, data2, dataLen);
-        return strcmp(ac1, ac2);
-        break;
+        case DataTypeFlag::DOUBLE:
+            memcpy(&ad1, data1, dataLen);
+            memcpy(&ad2, data2, dataLen);
+            if (ad1 == ad2)
+                return 0;
+            return (ad1 - ad2) > 0.0 ? 1 : -1;
+            break;
+        case DataTypeFlag::FLOAT:
+            memcpy(&af1, data1, dataLen);
+            memcpy(&af2, data2, dataLen);
+            //   printf("compare %f and %f result %d\n",af1,af2,(af1-af2)>0.0?1:-1);
+            if (af1 == af2)
+                return 0;
+            return (af1 - af2) > 0.0 ? 1 : -1;
+            break;
+        case DataTypeFlag::INTEGER:
+            memcpy(&ai1, data1, dataLen);
+            memcpy(&ai2, data2, dataLen);
+            if (ai1 == ai2)
+                return 0;
+            //printf("cmp %d %d\n",ai1,ai2);
+            return (ai1 - ai2) > 0 ? 1 : -1;
+            break;
+        case DataTypeFlag::LONG:
+            memcpy(&al1, data1, dataLen);
+            memcpy(&al2, data2, dataLen);
+            if (al1 == al2)
+                return 0;
+            return (al1 - al2) > 0 ? 1 : -1;
+            break;
+        case DataTypeFlag::DATE:
+            return 8;
+            break;
+        case DataTypeFlag::CHAR:
+        case DataTypeFlag::VARCHAR:
+            memcpy(ac1, data1, dataLen);
+            memcpy(ac2, data2, dataLen);
+            return strcmp(ac1, ac2);
+            break;
     }
 }

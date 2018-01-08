@@ -2,13 +2,13 @@
 #include <memory.h>
 
 CreateExecutor::CreateExecutor(){
-QueryExecutor::setStatus(0);
-strcpy(QueryExecutor::workDir,"workspace/");
+    QueryExecutor::setStatus(0);
+    strcpy(QueryExecutor::workDir,"workspace/");
 }
 
 CreateExecutor::~CreateExecutor(){
-QueryExecutor::setStatus(0);
-memset(QueryExecutor::workDir,'\0',strlen(workDir));
+    QueryExecutor::setStatus(0);
+    memset(QueryExecutor::workDir,'\0',strlen(workDir));
 }
 
 void CreateExecutor::setStatus(int a)
@@ -34,8 +34,8 @@ int CreateExecutor::execute(query_tree qt){
     Table * table = new Table ();
     table-> open(dir,false);
     /*************************************************
-    fill meta data
-    ************************************************/
+      fill meta data
+     ************************************************/
     TableMeta * meta = table ->getTableMeta();
     meta->fieldNum = qt.tableList[qt.fromListNum-1].fieldNum;
     strcpy(meta->tname, qt.tableList[qt.fromListNum-1].name);
@@ -67,10 +67,10 @@ int CreateExecutor::execute(query_tree qt){
         strcpy(parts->fieldList[fieldCursor].fname, qt.tableList[qt.fromListNum-1].mfc_list[i].fieldName);
         if(qt.tableList[qt.fromListNum-1].mfc_list[i].len%4 != 0)
         {
-                parts->fieldList[fieldCursor].len = qt.tableList[qt.fromListNum-1].mfc_list[i].len+ 4 - (qt.tableList[qt.fromListNum-1].mfc_list[i].len%4);
+            parts->fieldList[fieldCursor].len = qt.tableList[qt.fromListNum-1].mfc_list[i].len+ 4 - (qt.tableList[qt.fromListNum-1].mfc_list[i].len%4);
         }else
         {
-                parts->fieldList[fieldCursor].len = qt.tableList[qt.fromListNum-1].mfc_list[i].len;
+            parts->fieldList[fieldCursor].len = qt.tableList[qt.fromListNum-1].mfc_list[i].len;
         }
         parts->fieldList[fieldCursor].offsetInTuple = offset;
         offset += parts->fieldList[fieldCursor].len;
@@ -78,8 +78,8 @@ int CreateExecutor::execute(query_tree qt){
     }
     parts->next = 0;
     /*************************************************
-    end of fill meta data
-    ************************************************/
+      end of fill meta data
+     ************************************************/
     table->updateTableMeta();
     table -> close();
     delete table;

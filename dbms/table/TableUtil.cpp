@@ -84,8 +84,8 @@ short TableUtil::readFieldPartMeta(Byte *data, FieldPart *part, short maxOffset)
     return data - old;
 }
 /**
-    *
-    */
+ *
+ */
 short TableUtil::wirteFieldPartMeta(Byte *data, FieldPart *part, short maxOffset)
 {
     Byte *old = data;
@@ -164,18 +164,18 @@ short TableUtil::readColumn(void *target, Column *column)
     //   else
     //    strcpy(reinterpret_cast<char*>(target),reinterpret_cast<char*>(column->data));
     /*
-    switch(column->field->dataType)
-    {
-        case DataTypeFlag::CHAR:
-            memcpy()
-            break;
-        case DataTypeFlag::DATE:break;
-        case DataTypeFlag::DOUBLE:break;
-        case DataTypeFlag::FLOAT:break;
-        case DataTypeFlag::INTEGER:break;
-        case DataTypeFlag::LONG:break;
-        case DataTypeFlag::VARCHAR:break;
-    }*/
+       switch(column->field->dataType)
+       {
+       case DataTypeFlag::CHAR:
+       memcpy()
+       break;
+       case DataTypeFlag::DATE:break;
+       case DataTypeFlag::DOUBLE:break;
+       case DataTypeFlag::FLOAT:break;
+       case DataTypeFlag::INTEGER:break;
+       case DataTypeFlag::LONG:break;
+       case DataTypeFlag::VARCHAR:break;
+       }*/
 }
 short TableUtil::writeColumn(void *target, Column *column)
 {
@@ -187,16 +187,16 @@ short TableUtil::writeColumn(void *target, Column *column)
         //  strcpy(reinterpret_cast<char*>(column->data),reinterpret_cast<char*>(target));
     }
     /*
-    switch(column->field->dataType)
-    {
-        case DataTypeFlag::CHAR:break;
-        case DataTypeFlag::DATE:break;
-        case DataTypeFlag::DOUBLE:break;
-        case DataTypeFlag::FLOAT:break;
-        case DataTypeFlag::INTEGER:break;
-        case DataTypeFlag::LONG:break;
-        case DataTypeFlag::VARCHAR:break;
-    }*/
+       switch(column->field->dataType)
+       {
+       case DataTypeFlag::CHAR:break;
+       case DataTypeFlag::DATE:break;
+       case DataTypeFlag::DOUBLE:break;
+       case DataTypeFlag::FLOAT:break;
+       case DataTypeFlag::INTEGER:break;
+       case DataTypeFlag::LONG:break;
+       case DataTypeFlag::VARCHAR:break;
+       }*/
 }
 short TableUtil::estimateTupleSize(TableMeta *meta)
 {

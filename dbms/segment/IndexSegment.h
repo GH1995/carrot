@@ -39,28 +39,28 @@ typedef struct IndexMeta// 存放一张表上的所有索引
 
 class IndexSegment: public Segment
 {
-public:
+    public:
         IndexMeta* indexMeta;
-    IndexSegment(BufferManager* mgr,DirectorySegment* dir,DataSegment* dataseg,MetaDataSegment* metaseg);
-    ~IndexSegment();
-    Index* createIndex(Byte fid,Byte indexType);
-    Index* loadIndex(IndexMetaItem* item);
-    Index* findIndex(Byte fid,Byte indexType);
-    void dropIndex(Byte fid,Byte IndexType);
-    friend class Index;
-protected:
-     void initRootPage();
-private:
-    //BufferManager* manager;
-    DirectorySegment* drs;
-    DataSegment* dts;
-    MetaDataSegment* mts;
+        IndexSegment(BufferManager* mgr,DirectorySegment* dir,DataSegment* dataseg,MetaDataSegment* metaseg);
+        ~IndexSegment();
+        Index* createIndex(Byte fid,Byte indexType);
+        Index* loadIndex(IndexMetaItem* item);
+        Index* findIndex(Byte fid,Byte indexType);
+        void dropIndex(Byte fid,Byte IndexType);
+        friend class Index;
+    protected:
+        void initRootPage();
+    private:
+        //BufferManager* manager;
+        DirectorySegment* drs;
+        DataSegment* dts;
+        MetaDataSegment* mts;
 
-    Addr indexMetaAddr;
-    short transFrameToMeta(BufferFrame*  frame,IndexMeta* meta);
-    short transMetaToFrame(IndexMeta* meta,BufferFrame* frame);
-    short writeIndexMetaItem(IndexMetaItem* item,Byte* data);
-    short readIndexMetaItem(IndexMetaItem* item,Byte* data);
-    void flush();
+        Addr indexMetaAddr;
+        short transFrameToMeta(BufferFrame*  frame,IndexMeta* meta);
+        short transMetaToFrame(IndexMeta* meta,BufferFrame* frame);
+        short writeIndexMetaItem(IndexMetaItem* item,Byte* data);
+        short readIndexMetaItem(IndexMetaItem* item,Byte* data);
+        void flush();
 };
 #endif // INDEXSEGMENT_H_INCLUDED

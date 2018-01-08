@@ -43,36 +43,36 @@ typedef struct Page
     ushort maxLen;
 } Page;
 /*
-class VisitStrategy
-{
-    virtual void beforeSharedReadPage(Page& page)=0;
-    virtual void beforeOccupiedReadPage(Page& page)=0;
-    virtual void beforeFinishRead(Page& page)=0;
-    virtual void beforeFinishWrite(Page& page)=0;
-    virtual void beforeWritePage(Page& page)=0;
-    virtual void dropout(Page* page,uint& n)=0;
+   class VisitStrategy
+   {
+   virtual void beforeSharedReadPage(Page& page)=0;
+   virtual void beforeOccupiedReadPage(Page& page)=0;
+   virtual void beforeFinishRead(Page& page)=0;
+   virtual void beforeFinishWrite(Page& page)=0;
+   virtual void beforeWritePage(Page& page)=0;
+   virtual void dropout(Page* page,uint& n)=0;
 
-};*/
+   };*/
 class PageUtil
 {
-  public:
-    PageUtil(DBFile *dbfile, FreeBuffer *buffer);
-    ~PageUtil();
-    void buildPage(Page &page, Addr pageNo = 0);
-    Addr buildNewPage(Page &page);
-    void releasePage(Page &page);
-    void buildUsedByteList(Byte *iter, Page &page);
-    void buildPageUsedByteMap(Page &page);
-    void readPage(Addr pageNo, Page &page);
-    void writePage(Addr pageNo, Page &page);
-    Addr allocSpace(Page &page, int len);
-    bool freeSpace(Page &page, PageAddr addr, int len);
-    DBFile *getFile();
+    public:
+        PageUtil(DBFile *dbfile, FreeBuffer *buffer);
+        ~PageUtil();
+        void buildPage(Page &page, Addr pageNo = 0);
+        Addr buildNewPage(Page &page);
+        void releasePage(Page &page);
+        void buildUsedByteList(Byte *iter, Page &page);
+        void buildPageUsedByteMap(Page &page);
+        void readPage(Addr pageNo, Page &page);
+        void writePage(Addr pageNo, Page &page);
+        Addr allocSpace(Page &page, int len);
+        bool freeSpace(Page &page, PageAddr addr, int len);
+        DBFile *getFile();
 
-  private:
-    DBFile *dbfile;
-    FreeBuffer *freeBuffer;
-    void listMove(int k, int offset, bool forward, Page &page);
-    //  VisitStrategy* strategy;
+    private:
+        DBFile *dbfile;
+        FreeBuffer *freeBuffer;
+        void listMove(int k, int offset, bool forward, Page &page);
+        //  VisitStrategy* strategy;
 };
 #endif // FILEBUFFER_H_INCLUDED

@@ -59,7 +59,7 @@ void fillMetaSegment(TableMeta *meta, MetaDataSegment *ms)
     parts->fieldList = new Field[7];
     int leng[] = {4, 28, 40, 4, 16, 4, 104};
     int stype[] = {DataTypeFlag::INTEGER, DataTypeFlag::CHAR, DataTypeFlag::VARCHAR,
-                   DataTypeFlag::INTEGER, DataTypeFlag::CHAR, DataTypeFlag::FLOAT, DataTypeFlag::VARCHAR};
+        DataTypeFlag::INTEGER, DataTypeFlag::CHAR, DataTypeFlag::FLOAT, DataTypeFlag::VARCHAR};
     char name[7][MAX_TABLE_NAME_LEN] = {"S_SUPPKEY", "S_NAME", "S_ADDRESS", "S_NATIONKEY", "S_PHONE", "S_ACCTBAL", "S_COMMENT"};
     int offset = 0;
     for (int i = 0; i < 7; i++)
@@ -78,37 +78,37 @@ void fillMetaSegment(TableMeta *meta, MetaDataSegment *ms)
         ms->createOrUpdate();
 
     /*
-    meta->fieldNum= 4;
-    strcpy(meta->tname,"NATION");
-    meta->tid=1;
-    FieldPart* parts = meta->head;
-    if(parts->fieldList!=0)
-    {
-        delete parts->fieldList;
-    }currentTableListNum
-    parts->partNum=4;
-    parts->tid=1;
-     parts->fieldList = new Field[4];
-     int leng[]={4,25,4,152};
-     int stype[]={DataTypeFlag::INTEGER,DataTypeFlag::CHAR,DataTypeFlag::INTEGER,
-     DataTypeFlag::VARCHAR};
-     char name[4][MAX_TABLE_NAME_LEN]={"N_NATIONKEY","N_NAME","N_REGIONKEY","N_COMMENT"
-     };
-     int offset = 0;
-     for(int i=0;i<7;i++)
-     {
-         parts->fieldList[i].fid=i;
-         parts->fieldList[i].dataType=stype[i];
-         parts->fieldList[i].flag=0;
-        strcpy(parts->fieldList[i].fname,name[i]);
-         //parts->fieldList[i].fname=;
-         parts->fieldList[i].len=leng[i];
-         parts->fieldList[i].offsetInTuple=offset;
-         offset +=parts->fieldList[i].len;
-     }
-     parts->next=0;
-     if(ms!=0)ms->createOrUpdate();
-        */
+       meta->fieldNum= 4;
+       strcpy(meta->tname,"NATION");
+       meta->tid=1;
+       FieldPart* parts = meta->head;
+       if(parts->fieldList!=0)
+       {
+       delete parts->fieldList;
+       }currentTableListNum
+       parts->partNum=4;
+       parts->tid=1;
+       parts->fieldList = new Field[4];
+       int leng[]={4,25,4,152};
+       int stype[]={DataTypeFlag::INTEGER,DataTypeFlag::CHAR,DataTypeFlag::INTEGER,
+       DataTypeFlag::VARCHAR};
+       char name[4][MAX_TABLE_NAME_LEN]={"N_NATIONKEY","N_NAME","N_REGIONKEY","N_COMMENT"
+       };
+       int offset = 0;
+       for(int i=0;i<7;i++)
+       {
+       parts->fieldList[i].fid=i;
+       parts->fieldList[i].dataType=stype[i];
+       parts->fieldList[i].flag=0;
+       strcpy(parts->fieldList[i].fname,name[i]);
+    //parts->fieldList[i].fname=;
+    parts->fieldList[i].len=leng[i];
+    parts->fieldList[i].offsetInTuple=offset;
+    offset +=parts->fieldList[i].len;
+    }
+    parts->next=0;
+    if(ms!=0)ms->createOrUpdate();
+    */
 }
 void unpackage(Tuple *tuple, TableMeta *meta) // transfer columns to strings
 {
@@ -134,11 +134,11 @@ void package2(Tuple *tuple, char **mp, TableMeta *meta) // transfer strings to c
     }
 }
 /*
-int readIndex()
-{
-     char s[] = "../../data/testk.hdb";
- //char data[] = "/home/hagen/dataset/benchmark_data/benchmark_data/supplier.tbl";
- Table* table = new Table();
+   int readIndex()
+   {
+   char s[] = "../../data/testk.hdb";
+//char data[] = "/home/hagen/dataset/benchmark_data/benchmark_data/supplier.tbl";
+Table* table = new Table();
 table->open(s,false);
 TableMeta* meta = table->getTableMeta();
 //fillMetaSegment(meta,0);
@@ -155,32 +155,32 @@ IndexItem* item = idx->buildItem();
 iter->findFirst(item);
 if(item->addr!=0)
 {
-    Addr old = item->addr;
-    table->findTupleAtPosition(tuple,item->addr);
-    unpackage(tuple,meta);
-    iter->findNext(item);
-    while(item->addr!=old)
-    {
-                old = item->addr;
-        table->findTupleAtPosition(tuple,item->addr);
-        unpackage(tuple,meta);
-        iter->findNext(item);
-    }
+Addr old = item->addr;
+table->findTupleAtPosition(tuple,item->addr);
+unpackage(tuple,meta);
+iter->findNext(item);
+while(item->addr!=old)
+{
+old = item->addr;
+table->findTupleAtPosition(tuple,item->addr);
+unpackage(tuple,meta);
+iter->findNext(item);
+}
 }
 idx->releaseIndexItem(item);
 idx->destoryIterator(iter);
 iter = 0;
 if(idx!=0)
 {
-    printf("loaded!\n");
+printf("loaded!\n");
 }
 getchar();
 idx = idxseg->findIndex(5,IndexType::bptidx);
 if(idx!=0)
 {
-    printf("loaded!\n");
+printf("loaded!\n");
 }
- tree = dynamic_cast<BPTree*>(idx);
+tree = dynamic_cast<BPTree*>(idx);
 float id11= 340.0;
 float id22 = 400.0;
 iter = tree->findByRange(&id11,&id22);
@@ -188,20 +188,20 @@ item = idx->buildItem();
 iter->findFirst(item);
 if(item->addr!=0)
 {
-    Addr old = item->addr;
-    table->findTupleAtPosition(tuple,item->addr);
-    unpackage(tuple,meta);
-    iter->findNext(item);
-    while(item->addr!=old)
-    {
-                old = item->addr;
-        table->findTupleAtPosition(tuple,item->addr);
-        unpackage(tuple,meta);
-        iter->findNext(item);
-    }
+Addr old = item->addr;
+table->findTupleAtPosition(tuple,item->addr);
+unpackage(tuple,meta);
+iter->findNext(item);
+while(item->addr!=old)
+{
+old = item->addr;
+table->findTupleAtPosition(tuple,item->addr);
+unpackage(tuple,meta);
+iter->findNext(item);
+}
 }else
 {
-    printf("\n not found!\n");
+printf("\n not found!\n");
 }
 idx->releaseIndexItem(item);
 idx->destoryIterator(iter);
@@ -211,9 +211,9 @@ printf("\ninsert addr %llx\n",tuple->tupleAddr);
 table->releaseEmptyTuple(tuple);
 
 table->close();
- delete table;
- table = 0;
- //string filename="";
+delete table;
+table = 0;
+//string filename="";
 }*/
 int readdb()
 {
@@ -241,11 +241,11 @@ int readdb()
         unpackage(tuple, meta);
     }
     /*printf("loading bpt tree!\n");
-    Index* idx = idxseg->findIndex(0,IndexType::bptidx);
-    if(idx!=0)
-    {
-        printf("loaded!\n");
-    }*/
+      Index* idx = idxseg->findIndex(0,IndexType::bptidx);
+      if(idx!=0)
+      {
+      printf("loaded!\n");
+      }*/
     getchar();
     Addr addr = table->insertTuple(tuple);
     printf("\ninsert addr %llx\n", tuple->tupleAddr);
@@ -341,20 +341,20 @@ int mainSMR()
     string columnName2[2] = {"N_NATIONKEY", "N_NAME"};
     pspj2->initProjection(tableList[1], columnName2, 2);
     /*SPJItem* pitem=pspj2->buildSPJItem();
-   int cnt=0;
-   pspj2->getFirst(pitem);
-   while(pitem->use!=0){
-        char*str=new char[1000];
-        //printf("fieldNum:: %d\n",item->fieldNum);
-        for(int i=0;i<pitem->fieldNum&&pitem->use!=0;i++){
-            DataUtil::toString(str,pitem->data[i],pitem->dataType[i]);
-           // printf("%s\n",str);
-        }
-        cnt++;
-        pspj2->getNext(pitem);
-        printf("###################\n");
-        //break;
-        //if(cnt>=20000)break;
+      int cnt=0;
+      pspj2->getFirst(pitem);
+      while(pitem->use!=0){
+      char*str=new char[1000];
+    //printf("fieldNum:: %d\n",item->fieldNum);
+    for(int i=0;i<pitem->fieldNum&&pitem->use!=0;i++){
+    DataUtil::toString(str,pitem->data[i],pitem->dataType[i]);
+    // printf("%s\n",str);
+    }
+    cnt++;
+    pspj2->getNext(pitem);
+    printf("###################\n");
+    //break;
+    //if(cnt>=20000)break;
     }*/
     spjList[0] = pspj1;
     spjList[1] = pspj2;
@@ -372,11 +372,11 @@ int mainSMR()
     condition[0].value = ss;
     condition[0].len = sizeof(ss);
     /* condition[1].conditionType=1;
-   condition[1].filedName="S_SUPPKEY";
-   condition[1].compare=CompareType::LESS;
-   condition[1].DataType=DataTypeFlag::INTEGER;
-   int  skey=20;
-   condition[1].value=&skey;*/
+       condition[1].filedName="S_SUPPKEY";
+       condition[1].compare=CompareType::LESS;
+       condition[1].DataType=DataTypeFlag::INTEGER;
+       int  skey=20;
+       condition[1].value=&skey;*/
 
     // Projection*pspj=new Projection(OperatorType::PROJECTION,SPJ::TABLEINITIAL);
     //string columns[2]={"S_SUPPKEY","S_ADDRESS"};
@@ -405,14 +405,14 @@ int mainSMR()
     }
     printf("The whole size::%d\n", cnt);
     /*while(true){
-        spj->getNext(item);
-        for(int i=0;i<item->fieldNum;i++){
-            DataUtil::toString(str,item->data[i],item->dataType[i]);
-            printf("%s   ",str);
-        }
-        printf("\n");
-        if(item->use==0) break;
-      //  printf("%d\n",item->fieldNum);
+      spj->getNext(item);
+      for(int i=0;i<item->fieldNum;i++){
+      DataUtil::toString(str,item->data[i],item->dataType[i]);
+      printf("%s   ",str);
+      }
+      printf("\n");
+      if(item->use==0) break;
+    //  printf("%d\n",item->fieldNum);
     }*/
     spj->releaseSPJItem(item);
     spj->destroy();
@@ -448,27 +448,27 @@ int mainHH2()
     printf("s_name %s\n", s_name);
     dataseg->releaseEmptyTuple(tuple);
     /*
-    metas->fieldNum=2;
-    strcpy(metas->tname,"tbl_hello");
-    metas->tid=1;
-    FieldPart* parts = metas->head;
-    if(parts->fieldList!=0)
-    {
-        delete parts->fieldList;
-    }
-    parts->partNum=2;
-    parts->tid=1;
-    parts->fieldList = new Field[2];
-    parts->fieldList[0].fid=1;
-    parts->fieldList[0].dataType=DataTypeFlag::INTEGER;
-    strcpy(parts->fieldList[0].fname,"ID");
-    parts->fieldList[0].len=4;
-    parts->fieldList[1].fid=2;
-    parts->fieldList[1].dataType=DataTypeFlag::INTEGER;
-    strcpy(parts->fieldList[1].fname,"Key");
-    parts->fieldList[1].len=4;
-    ms->createOrUpdate();
-    */
+       metas->fieldNum=2;
+       strcpy(metas->tname,"tbl_hello");
+       metas->tid=1;
+       FieldPart* parts = metas->head;
+       if(parts->fieldList!=0)
+       {
+       delete parts->fieldList;
+       }
+       parts->partNum=2;
+       parts->tid=1;
+       parts->fieldList = new Field[2];
+       parts->fieldList[0].fid=1;
+       parts->fieldList[0].dataType=DataTypeFlag::INTEGER;
+       strcpy(parts->fieldList[0].fname,"ID");
+       parts->fieldList[0].len=4;
+       parts->fieldList[1].fid=2;
+       parts->fieldList[1].dataType=DataTypeFlag::INTEGER;
+       strcpy(parts->fieldList[1].fname,"Key");
+       parts->fieldList[1].len=4;
+       ms->createOrUpdate();
+       */
     Addr add = ds->allocateBlock(SegmentType::DataSeg, PageStatus::EmptyPage);
     //printf("alloc page no %lld ds =%lld \n",pageNo,add);
     // add &= 0x8fffffff;
@@ -488,16 +488,16 @@ int mainHH2()
     //    }
     // getchar();
     /*
-    BufferFrame* frame = mgr->requestPageForWrite(0,false);
-    printf("\nused Byte %u\n",frame->page->usedByte);
-    frame->edit=true;
-    Addr addr = util->allocSpace(*frame->page,strlen(s1));
-    short  pa = addr;
-     printf("alloc addr %lld\n used Byte %u\n",addr,frame->page->usedByte);
-    memcpy(frame->page->data+pa,s1,strlen(s1));
-    util->freeSpace(*frame->page,addr,strlen(s));
-    mgr->finishWrite(frame);
-    */
+       BufferFrame* frame = mgr->requestPageForWrite(0,false);
+       printf("\nused Byte %u\n",frame->page->usedByte);
+       frame->edit=true;
+       Addr addr = util->allocSpace(*frame->page,strlen(s1));
+       short  pa = addr;
+       printf("alloc addr %lld\n used Byte %u\n",addr,frame->page->usedByte);
+       memcpy(frame->page->data+pa,s1,strlen(s1));
+       util->freeSpace(*frame->page,addr,strlen(s));
+       mgr->finishWrite(frame);
+       */
     delete dataseg;
     delete ms;
     delete ds;
@@ -517,24 +517,24 @@ int mainHH1()
     printf("WELCOME TO USE OUR DATABSE: CARROT!!!\n");
     /*
 
-    DBFile file;
-    char s[] = "/home/hagen/202";
-   bool t=  file.open(s,false);
-   if(t)
-   {
-    unsigned   char buffer[80];
-    printf("content %s\n",buffer);
-    printf("size %d\n",file.size);
-    file.read(buffer,0,80);
-    printf("content %s\n",buffer);
-    bool t = file.growing(1024);
-    if(t)
-    {
-        printf("growing successful");
-    }
-    file.close();
+       DBFile file;
+       char s[] = "/home/hagen/202";
+       bool t=  file.open(s,false);
+       if(t)
+       {
+       unsigned   char buffer[80];
+       printf("content %s\n",buffer);
+       printf("size %d\n",file.size);
+       file.read(buffer,0,80);
+       printf("content %s\n",buffer);
+       bool t = file.growing(1024);
+       if(t)
+       {
+       printf("growing successful");
+       }
+       file.close();
 
-   }   */
+       }   */
     FreeBuffer fb;
     Buffer *b = fb.allocBuffer();
     fb.freeBuffer(b);

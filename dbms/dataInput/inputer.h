@@ -4,12 +4,12 @@
 #include "../common.h"
 class DataInput
 {
-public:
-    bool open(char* name);
-    int findNext(char** matrix);
-    void close();
-private:
-    FILE* fd;
+    public:
+        bool open(char* name);
+        int findNext(char** matrix);
+        void close();
+    private:
+        FILE* fd;
 };
 
 

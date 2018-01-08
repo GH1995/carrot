@@ -25,11 +25,11 @@ class Directory
         bool edit;
         Addr tmpNextBlockAddr;
         Directory():baseAddr(0),pageNo(0),next(0),edit(false)
-        {
-            data = new Byte[DIRPAGE_BODY];
-            memset(data,0,DIRPAGE_BODY*sizeof(Byte));
-            nextToken = 0;
-        }
+    {
+        data = new Byte[DIRPAGE_BODY];
+        memset(data,0,DIRPAGE_BODY*sizeof(Byte));
+        nextToken = 0;
+    }
         ~Directory()
         {
             delete[] data;
@@ -37,45 +37,45 @@ class Directory
         int offset;
         Addr maxAddr;
         Addr nextToken;
-    };
+};
 
 class DirectorySegment : public Segment
 {
-public:
-    DirectorySegment(BufferManager* mgr);
-    ~DirectorySegment();
-/**
- * now let us design the page allocation/revocation algorithm
- * only when a block allocate or revoke need to invoke method here
- * other time we can use a notification(Full empty or not full) to edit the data.
- * We can find the following operation:
- * 1. allocate a block, mark the block, and return the addr.
- * 2. edit the block mark, full/not full, a notification function.
- * 3. revoke a block.
- * 4. find a not full block.DIRPAGE_BODY
- */
-    Addr findFreeSapceBlock(Byte segmentType);
-    Addr findFirstBlock(Byte segmentType);
-    Addr findNextBlock(Addr addr,Byte segmentType);
-    void updateSpaceMark(BufferFrame* frame,Byte segmentType,Byte pageStatus);
-    void freeBlock(Addr addr);
-    Directory* allocateDirectory();
-    Addr allocateBlock(Byte segmentType,Byte pageStatus);
-    Addr getNewDirAddr();
-    void initRootPage();
+    public:
+        DirectorySegment(BufferManager* mgr);
+        ~DirectorySegment();
+        /**
+         * now let us design the page allocation/revocation algorithm
+         * only when a block allocate or revoke need to invoke method here
+         * other time we can use a notification(Full empty or not full) to edit the data.
+         * We can find the following operation:
+         * 1. allocate a block, mark the block, and return the addr.
+         * 2. edit the block mark, full/not full, a notification function.
+         * 3. revoke a block.
+         * 4. find a not full block.DIRPAGE_BODY
+         */
+        Addr findFreeSapceBlock(Byte segmentType);
+        Addr findFirstBlock(Byte segmentType);
+        Addr findNextBlock(Addr addr,Byte segmentType);
+        void updateSpaceMark(BufferFrame* frame,Byte segmentType,Byte pageStatus);
+        void freeBlock(Addr addr);
+        Directory* allocateDirectory();
+        Addr allocateBlock(Byte segmentType,Byte pageStatus);
+        Addr getNewDirAddr();
+        void initRootPage();
 
-private:
+    private:
         Addr allocateBlockInOnePage(Directory* dir,Byte segmentType,Byte pageStatus);
-    void transFrameToDir(BufferFrame* frame,Directory* dir);
-    void transDirToFrame(Directory* dir,BufferFrame* frame);
-    void flushOne(Directory* dir);
+        void transFrameToDir(BufferFrame* frame,Directory* dir);
+        void transDirToFrame(Directory* dir,BufferFrame* frame);
+        void flushOne(Directory* dir);
 
-    void flushAll();
+        void flushAll();
 
-    Directory* findDirectory(Addr addr);
-    Directory* head;
-    Directory* theLast;
-    std::map<Addr,Directory*> mapping;
+        Directory* findDirectory(Addr addr);
+        Directory* head;
+        Directory* theLast;
+        std::map<Addr,Directory*> mapping;
 };
 
 #endif // DIRECTORYSEGMENT_H_INCLUDED

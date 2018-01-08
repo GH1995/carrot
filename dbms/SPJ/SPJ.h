@@ -13,9 +13,9 @@ using namespace std;
 class  OperatorType
 {
     public:
-     static const Byte SELECTION = 1;// for test
-     static const Byte PROJECTION=2;
-     static const Byte JOIN = 3;
+        static const Byte SELECTION = 1;// for test
+        static const Byte PROJECTION=2;
+        static const Byte JOIN = 3;
 };
 
 typedef struct{
@@ -28,20 +28,20 @@ typedef struct{
 }SPJItem;
 
 class SPJ{
-public:
-    virtual void getNext(SPJItem*item);
-    virtual void getFirst(SPJItem * item);
-    virtual void init(char* tablename);
-    virtual void init(SPJ*spj);
-    virtual void releaseSPJItem(SPJItem*item);
-    virtual SPJItem* buildSPJItem();
-    SPJ();
-    static const Byte TABLEINITIAL=1;
-    static const Byte ITERATORINITIAL=2;
-    static const Byte HYBRIDINITIAL=3;
-    friend class Projection;
-    friend class Selection;
-private:
+    public:
+        virtual void getNext(SPJItem*item);
+        virtual void getFirst(SPJItem * item);
+        virtual void init(char* tablename);
+        virtual void init(SPJ*spj);
+        virtual void releaseSPJItem(SPJItem*item);
+        virtual SPJItem* buildSPJItem();
+        SPJ();
+        static const Byte TABLEINITIAL=1;
+        static const Byte ITERATORINITIAL=2;
+        static const Byte HYBRIDINITIAL=3;
+        friend class Projection;
+        friend class Selection;
+    private:
         Tuple*currentTuple;//now the tuple
         Byte operatorType;
         Table*table;

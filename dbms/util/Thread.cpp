@@ -7,7 +7,7 @@ namespace std
 using namespace std;
 //---------------------------------------------------------------------------
 pthread_t Thread::start(void (*starter)(void *), void *arg, bool boost)
-// Create a new thread
+    // Create a new thread
 {
     // Avoid a warning, boost is not supported for Unix currently
     if (boost)
@@ -31,7 +31,7 @@ pthread_t Thread::start(void (*starter)(void *), void *arg, bool boost)
 }
 //---------------------------------------------------------------------------
 uint64_t Thread::guessPhysicalAvailable()
-// Guess the physical available memory
+    // Guess the physical available memory
 {
 
     long long pageCount = sysconf(_SC_PHYS_PAGES);
@@ -41,7 +41,7 @@ uint64_t Thread::guessPhysicalAvailable()
 }
 //----------------------------------------------------------------------Thread-----
 void Thread::sleep(unsigned time)
-// Wait x ms
+    // Wait x ms
 {
     if (!time)
     {
@@ -57,7 +57,7 @@ void Thread::sleep(unsigned time)
 }
 //---------------------------------------------------------------------------
 long Thread::threadID()
-// Threadid
+    // Threadid
 {
     union {
         pthread_t a;
@@ -69,13 +69,13 @@ long Thread::threadID()
 }
 //---------------------------------------------------------------------------
 void Thread::yield()
-// Activate other threads
+    // Activate other threads
 {
     sched_yield();
 }
 //---------------------------------------------------------------------------
 uint64_t Thread::getTicks()
-// Get the current time in ms
+    // Get the current time in ms
 {
 
     timeval t;

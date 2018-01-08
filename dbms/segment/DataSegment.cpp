@@ -9,9 +9,9 @@ DataSegment::DataSegment(BufferManager* mgr,DirectorySegment* dir,TableMeta* mt)
 {
     tupleSize = TableUtil::estimateTupleSize(meta);
     freePageAddr=0;
-    #ifdef DEBUG
+#ifdef DEBUG
     printf("\n one tuple size %d\n",tupleSize);
-    #endif
+#endif
 }
 DataSegment::~DataSegment()
 {
@@ -32,16 +32,16 @@ void DataSegment::findTupleAtPosition(Tuple* tuple,Addr addr)
     PageUtil* util = manager->getPageUtil();
     Byte* data = page->data;
     PageAddr offset = (PAGE_OFFSET(addr));
-     while(data[offset]!=TUPLE_MAGIC)
+    while(data[offset]!=TUPLE_MAGIC)
     {
         offset++;
         if(offset==PAGE_SIZE-1)break;
     }
     if(offset==PAGE_SIZE-1)
     {
-        #ifdef DEBUG
+#ifdef DEBUG
         printf("data segment found no tuple! addr=%lld\n",addr);
-        #endif
+#endif
     }
     else
     {
@@ -56,10 +56,10 @@ void DataSegment::findFirstTuple(Tuple* tuple)
     Addr addr = directory->findFirstBlock(SegmentType::DataSeg);
     if(addr<=0)
     {
-        #ifdef DEBUG
-            printf("no datasegment found!\n");
-        #endif
-            return ;
+#ifdef DEBUG
+        printf("no datasegment found!\n");
+#endif
+        return ;
     }
     PageAddr offset = PAGE_HEAD_LEN+PAGE_ALIGN;
     BufferFrame* frame = manager->requestPageForRead(addr);
@@ -74,15 +74,15 @@ void DataSegment::findFirstTuple(Tuple* tuple)
     }
     if(offset==PAGE_SIZE-1)
     {
-        #ifdef DEBUG
+#ifdef DEBUG
         printf("data segment found no tuple! addr=%lld\n",addr);
-        #endif
+#endif
     }
     else
     {
-    TableUtil::readTuple(data+offset,tuple,meta);
-    tuple->offset = offset;
-    tuple->tupleAddr = addr+offset;
+        TableUtil::readTuple(data+offset,tuple,meta);
+        tuple->offset = offset;
+        tuple->tupleAddr = addr+offset;
     }
     manager->finishRead(frame);
 
@@ -105,51 +105,51 @@ void DataSegment::findNextTuple(Tuple* tuple,Tuple* tuple2)
             offset++;
             if(offset==PAGE_SIZE-1)break;
         }
-         if(offset==PAGE_SIZE-1)
+        if(offset==PAGE_SIZE-1)
         {
-            #ifdef DEBUG
+#ifdef DEBUG
             printf("data segment found no tuple! addr=%llx\n",tupleAddr);
-            #endif
+#endif
         }
         else
         {
-        TableUtil::readTuple(data+offset,tuple2,meta);
-        tuple2->offset = offset;
-        tuple2->tupleAddr = PAGE_ADDR(pageNo1)+offset;
+            TableUtil::readTuple(data+offset,tuple2,meta);
+            tuple2->offset = offset;
+            tuple2->tupleAddr = PAGE_ADDR(pageNo1)+offset;
         }
         manager->finishRead(frame);
     }else
     {
 
         Addr addr = directory->findNextBlock(tupleAddr,SegmentType::DataSeg);
-        #ifdef DEBUG
+#ifdef DEBUG
         printf("addr %llx next addr %llx\n",tupleAddr,addr);
-        #endif
+#endif
         if(addr>0)
         {
-                PageAddr offset = PAGE_HEAD_LEN+PAGE_ALIGN;
-                BufferFrame* frame = manager->requestPageForRead(addr);
-                Page* page = frame->page;
-                PageUtil* util = manager->getPageUtil();
-                Byte* data = page->data;
-    //data+=offset;
-                while(data[offset]!=TUPLE_MAGIC)
-                {
-                    offset++;
-                    if(offset==PAGE_SIZE-1)break;
-                }
-                if(offset==PAGE_SIZE-1)
-                {
-                    #ifdef DEBUG
-                    printf("data segment found no tuples! addr=%llx\n",addr);
-                    #endif
-                }else
-                {
+            PageAddr offset = PAGE_HEAD_LEN+PAGE_ALIGN;
+            BufferFrame* frame = manager->requestPageForRead(addr);
+            Page* page = frame->page;
+            PageUtil* util = manager->getPageUtil();
+            Byte* data = page->data;
+            //data+=offset;
+            while(data[offset]!=TUPLE_MAGIC)
+            {
+                offset++;
+                if(offset==PAGE_SIZE-1)break;
+            }
+            if(offset==PAGE_SIZE-1)
+            {
+#ifdef DEBUG
+                printf("data segment found no tuples! addr=%llx\n",addr);
+#endif
+            }else
+            {
                 TableUtil::readTuple(data+offset,tuple2,meta);
                 tuple2->offset = offset;
                 tuple2->tupleAddr = addr+offset;
-                }
-                manager->finishRead(frame);
+            }
+            manager->finishRead(frame);
         }
     }
 
@@ -161,7 +161,7 @@ Addr DataSegment::insertTuple(Tuple* tuple)
         Addr addr = 0;
         addr = freePageAddr;
         if(addr<=0){
-                addr = directory->findFreeSapceBlock(SegmentType::DataSeg);
+            addr = directory->findFreeSapceBlock(SegmentType::DataSeg);
         }
         if(addr<=0)
         {
@@ -169,9 +169,9 @@ Addr DataSegment::insertTuple(Tuple* tuple)
         }
         if(addr<=0)
         {
-            #ifdef DEBUG
+#ifdef DEBUG
             printf("allocation error!");
-            #endif // DEBUG
+#endif // DEBUG
             return 0;
         }
         BufferFrame* frame = manager->requestPageForWrite(addr,false);
@@ -214,13 +214,13 @@ Addr DataSegment::insertTuple(Tuple* tuple)
 }
 Addr DataSegment::flushTuple(Tuple* tuple)
 {
-        Addr addr = tuple->tupleAddr;
-        BufferFrame* frame = manager->requestPageForWrite(addr,false);
-        Page* page = frame->page;
-        short written = TableUtil::writeTuple(page->data+PAGE_OFFSET(addr),tuple,meta);
-        frame->edit = true;
-        manager->finishWrite(frame);
-        return tuple->tupleAddr;
+    Addr addr = tuple->tupleAddr;
+    BufferFrame* frame = manager->requestPageForWrite(addr,false);
+    Page* page = frame->page;
+    short written = TableUtil::writeTuple(page->data+PAGE_OFFSET(addr),tuple,meta);
+    frame->edit = true;
+    manager->finishWrite(frame);
+    return tuple->tupleAddr;
 }
 
 
@@ -235,22 +235,22 @@ bool DataSegment::deleteTuple(Tuple* tuple)
         bool suc = util->freeSpace(*frame->page,offset,tupleSize);
         for(int i = 0; i<tupleSize; i++)
         {
-           frame->page->data[offset+i]=0u;
+            frame->page->data[offset+i]=0u;
         }
         frame->edit = true;
         if(!suc)
         {
-            #ifdef DEBUG
+#ifdef DEBUG
             printf("free the tuple size failure with addr = %lld \t %llx\n",addr,addr);
-            #endif // DEBUG
+#endif // DEBUG
         }
         manager->finishWrite(frame);
     }
     else
     {
-        #ifdef DEBUG
+#ifdef DEBUG
         printf("missing addr when deleting");
-        #endif // DEBUG
+#endif // DEBUG
     }
 }
 void DataSegment::initRootPage()

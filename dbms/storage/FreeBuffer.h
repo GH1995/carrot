@@ -18,15 +18,15 @@ typedef struct Buffer
 
 class FreeBuffer
 {
-  public:
-    FreeBuffer();
-    Buffer *allocBuffer();
-    void freeBuffer(Buffer *buffer);
-    ~FreeBuffer();
+    public:
+        FreeBuffer();
+        Buffer *allocBuffer();
+        void freeBuffer(Buffer *buffer);
+        ~FreeBuffer();
 
-  private:
-    Buffer *head;
-    Buffer *newBuffer();
+    private:
+        Buffer *head;
+        Buffer *newBuffer();
 };
 
 #endif // FREEBUFFER_H_INCLUDED

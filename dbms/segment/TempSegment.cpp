@@ -32,12 +32,12 @@ Addr tempSegment::creatTemp(BufferManager* manager,DirectorySegment* dir)
     }
     else
     {
-      //  Addr tmpAddr = this->indexMetaAddr;
-       // while(tmpAddr>0)
-       // {
-            BufferFrame* frame = manager->requestPageForRead(nodeaddr);
-            transFrameToMeta(frame,this->node);
-            manager->finishRead(frame);
+        //  Addr tmpAddr = this->indexMetaAddr;
+        // while(tmpAddr>0)
+        // {
+        BufferFrame* frame = manager->requestPageForRead(nodeaddr);
+        transFrameToMeta(frame,this->node);
+        manager->finishRead(frame);
         //}
     }
     return nodeaddr;
@@ -50,13 +50,13 @@ short tempSegment::findfristItem()
 }
 void tempSegment::transFrametoTemp(BufferFrame* frame,tempnode* node)
 {
-     Page* page = frame->page;
+    Page* page = frame->page;
     ushort flag = page->flag&SegmentType::mask;
     if(flag!=SegmentType::TempMagic)
     {
-        #ifdef DEBUG_INDEX
-            printf("warning: this page is not a index segment page!\n");
-        #endif // DEBUG_INDEX
+#ifdef DEBUG_INDEX
+        printf("warning: this page is not a index segment page!\n");
+#endif // DEBUG_INDEX
     }
     //warning: the pageNo will be overwritten in the following code.
     node->nodeaddr= frame->pageNo;
@@ -65,35 +65,35 @@ void tempSegment::transFrametoTemp(BufferFrame* frame,tempnode* node)
     data+=PAGE_HEAD_LEN;
     data+=PAGE_ALIGN;
     int pos = 0;
-//    if(data[pos++]!=TempMagic)
-//    {
-//                #ifdef DEBUG_INDEX
-//            printf("warning: this position is not a indexMeta!\n");
-//            #endif // DEBUG_INDEX
-//    }
-//    data+=pos;
+    //    if(data[pos++]!=TempMagic)
+    //    {
+    //                #ifdef DEBUG_INDEX
+    //            printf("warning: this position is not a indexMeta!\n");
+    //            #endif // DEBUG_INDEX
+    //    }
+    //    data+=pos;
     memcpy(&node->nodeaddr,data,sizeof(Addr));
     data+=sizeof(Addr);
     memcpy(&node->length,data,sizeof(int));
     data+=sizeof(int);
     memcpy(&node->type,data,sizeof(int));
     data+=sizeof(int);
-   // memcpy(&node->fid,data,sizeof(int));
-   // data+=sizeof(int);
+    // memcpy(&node->fid,data,sizeof(int));
+    // data+=sizeof(int);
     for(int i=0;i<node->length;i++)
     {
         short reads = this->readtempItem(&node->arr[i],data);
         //meta->indexList[i].index = 0;
         data+=reads;
-    /*    if(reads!=12)
-        {
-            #ifdef DEBUG_INDEX
-                printf("warning: an item is not equal to 12 when reading\n");
-            #endif // DEBUG_INDEX
-        }*/
-    }
-     memcpy(&node->nodeaddr,data,sizeof(Addr));
-     data+=sizeof(Addr);
+        /*    if(reads!=12)
+              {
+#ifdef DEBUG_INDEX
+printf("warning: an item is not equal to 12 when reading\n");
+#endif // DEBUG_INDEX
+}*/
+        }
+memcpy(&node->nodeaddr,data,sizeof(Addr));
+data+=sizeof(Addr);
 }
 
 
@@ -124,15 +124,15 @@ void tempSegment::transTemptoFrame(BufferFrame* frame,tempnode* node)
         if(i>=MAX_TEMP_NUM)break;
         short written = this->writetempItem(&node->length[i],data);
         data+=written;
-      /*  if(written!=12)
-        {
-            #ifdef DEBUG_INDEX
-                printf("warning: an item is not equal to 12 when writing\n");
-            #endif // DEBUG_INDEX
-        }*/
-    }
-    memcpy(data,&node->nodeaddr,sizeof(Addr));
-    data+=sizeof(Addr);
+        /*  if(written!=12)
+            {
+#ifdef DEBUG_INDEX
+printf("warning: an item is not equal to 12 when writing\n");
+#endif // DEBUG_INDEX
+}*/
+        }
+memcpy(data,&node->nodeaddr,sizeof(Addr));
+data+=sizeof(Addr);
 }
 
 short writetempItem(tempitem* item,Byte* data)
@@ -155,9 +155,9 @@ short tempSegment::readtempItem(tempitem* item,Byte* data)
     int pos =0;
     //if(data[pos++]!=TempMagic)
     {
-        #ifdef DEBUG_INDEX
-      //  printf("warning: read badly when reading the indexMetaItem!\n");
-        #endif
+#ifdef DEBUG_INDEX
+        //  printf("warning: read badly when reading the indexMetaItem!\n");
+#endif
     }
     //data+=pos;
     memcpy(&item->keyaddr,data,sizeof(Addr));

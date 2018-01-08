@@ -46,10 +46,10 @@ int InsertExecutor::execute(query_tree qt)
     strcat(dir,".tb");
     FILE *f = fopen(dir,"r");
     if(f == NULL)
-        {
-            setStatus(-18);
-            return getStatus();
-        }
+    {
+        setStatus(-18);
+        return getStatus();
+    }
     Table* table = new Table();
     table->open(dir,false);
     TableMeta * meta = table->getTableMeta();
@@ -59,17 +59,17 @@ int InsertExecutor::execute(query_tree qt)
     //printf("TUPLE FIELD NUMBER %d\n", ttit.fieldNum);
     if(fp->partNum!=ttit.fieldNum)
     {
-            table -> releaseEmptyTuple(tuple);
-            table ->close();
-            delete table;
-            table = 0;
-         setStatus(-16);//元组属性数量和表属性数量不匹配
-          return getStatus();
+        table -> releaseEmptyTuple(tuple);
+        table ->close();
+        delete table;
+        table = 0;
+        setStatus(-16);//元组属性数量和表属性数量不匹配
+        return getStatus();
     }
     for(int i = 0; i < fp->partNum; i ++)
+    {
+        switch(tuple->column[i].field->dataType)
         {
-            switch(tuple->column[i].field->dataType)
-            {
             case DataTypeFlag::INTEGER:
                 TableUtil::writeColumn(&ttit.intField[intCursor],&tuple->column[i]);
                 intCursor ++;
@@ -98,8 +98,8 @@ int InsertExecutor::execute(query_tree qt)
                 break;
             default:
                 break;
-            }
         }
+    }
     Addr w = table -> insertTuple(tuple);
     table -> releaseEmptyTuple(tuple);
     table ->close();

@@ -15,18 +15,18 @@
  */
 class DBFile
 {
-public:
-  bool open(const char *dbname, bool readOnly);
-  virtual void read(void *block, Addr offset, int len);
-  //virtual void write(void* block,　Addr offset, int len);
-  virtual void write(void *block, Addr offset, int len);
-  virtual bool growing(int size);
-  virtual bool flush();
-  virtual void close();
-  int size;
+    public:
+        bool open(const char *dbname, bool readOnly);
+        virtual void read(void *block, Addr offset, int len);
+        //virtual void write(void* block,　Addr offset, int len);
+        virtual void write(void *block, Addr offset, int len);
+        virtual bool growing(int size);
+        virtual bool flush();
+        virtual void close();
+        int size;
 
-private:
-  int fd;
+    private:
+        int fd;
 };
 
 #endif // DBFILE_H_INCLUDED

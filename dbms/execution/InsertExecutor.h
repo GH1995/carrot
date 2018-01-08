@@ -4,16 +4,16 @@
 
 class InsertExecutor:QueryExecutor
 {
-public:
-    InsertExecutor();
-    ~InsertExecutor();
-    int execute(query_tree qt);
-    void setStatus(int a);
-     int getStatus();
-     void setChdNum(int a);
-     int getChdNum();
-private:
-    int chdNum;
+    public:
+        InsertExecutor();
+        ~InsertExecutor();
+        int execute(query_tree qt);
+        void setStatus(int a);
+        int getStatus();
+        void setChdNum(int a);
+        int getChdNum();
+    private:
+        int chdNum;
 };
 
 #endif // INSERTEXECUTOR_H_INCLUDED

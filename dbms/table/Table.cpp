@@ -15,13 +15,13 @@ BufferStrategy *Table::getStrategy()
     return this->strategy;
 }
 /**
-    * warning:
-    * if the strategy is initialize, it must be freed manually.
-    * the class only freed the current strategy.
-    * otherwise it will lead to the memory leak!
-    * if the table is opened, it will not effect!
-    *
-    */
+ * warning:
+ * if the strategy is initialize, it must be freed manually.
+ * the class only freed the current strategy.
+ * otherwise it will lead to the memory leak!
+ * if the table is opened, it will not effect!
+ *
+ */
 void Table::setStrategy(StrategyInBuffer _strategy)
 {
     if (init)
@@ -73,9 +73,9 @@ bool Table::open(char *name, bool readonly)
     this->meta = metaseg->getMetaData();
     this->dataseg = new DataSegment(mgr, dirseg, meta);
     /**
-    * TODO: the index segment should be created manually.
-    * because it need meta segment.
-    */
+     * TODO: the index segment should be created manually.
+     * because it need meta segment.
+     */
     this->indexseg = 0;
     init = true;
 }

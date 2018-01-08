@@ -13,25 +13,25 @@
  */
 class MetaDataSegment
 {
-public:
-    MetaDataSegment(BufferManager* mgr,DirectorySegment* dir);
-    ~MetaDataSegment();
-    bool createOrUpdate();
-    TableMeta* getMetaData();
-    void deleteFieldList();
-private:
-    BufferManager* manager;
-    DirectorySegment* dir;
-    TableMeta* tableMeta;
-    Addr metaPageAddr;
+    public:
+        MetaDataSegment(BufferManager* mgr,DirectorySegment* dir);
+        ~MetaDataSegment();
+        bool createOrUpdate();
+        TableMeta* getMetaData();
+        void deleteFieldList();
+    private:
+        BufferManager* manager;
+        DirectorySegment* dir;
+        TableMeta* tableMeta;
+        Addr metaPageAddr;
 
-    void transTableMetaToFrame(BufferFrame* frame);
-    void transFrameToTableMeta(BufferFrame* frame);
-    /*
-    short readFieldMeta(Page* page,int offset,Field* field,short maxOffset);
-    short writeFieldMeta(Page* page,int offset,Field* field, short maxOffset);
-    short readFieldPartMeta(Page* page,int offset,FieldPart* fieldPart,short maxOffset);
-    short wirteFieldPartMeta(Page* page,int offset,FieldPart* fieldPart,short maxOffset);
-    */
+        void transTableMetaToFrame(BufferFrame* frame);
+        void transFrameToTableMeta(BufferFrame* frame);
+        /*
+           short readFieldMeta(Page* page,int offset,Field* field,short maxOffset);
+           short writeFieldMeta(Page* page,int offset,Field* field, short maxOffset);
+           short readFieldPartMeta(Page* page,int offset,FieldPart* fieldPart,short maxOffset);
+           short wirteFieldPartMeta(Page* page,int offset,FieldPart* fieldPart,short maxOffset);
+           */
 };
 #endif // METADATASEGMENT_H_INCLUDED

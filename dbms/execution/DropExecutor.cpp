@@ -26,16 +26,16 @@ int DropExecutor::execute(query_tree qt)
 {
     if(ctfp.currentFp == NULL)
     {
-            setStatus(-6);
-            return getStatus();
+        setStatus(-6);
+        return getStatus();
     }
     if(remove(ctfp.name) == 0)
-        {
-            setStatus(1);
-        }
+    {
+        setStatus(1);
+    }
     else
-        {
-            setStatus(-7);
-        }
+    {
+        setStatus(-7);
+    }
     return getStatus();
 }

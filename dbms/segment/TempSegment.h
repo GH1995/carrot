@@ -13,7 +13,7 @@ typedef struct tempnode
     Addr nextAddr;
     int length;
     int type;
-   // int fid;
+    // int fid;
     tempitem arr[452];
 
     Addr nodeaddr;
@@ -21,16 +21,16 @@ typedef struct tempnode
 
 class tempSegment
 {
-public:
-    tempnode *node;
-    tempSegment(BufferManager* mgr,DirectorySegment* dir,DataSegment* dataseg);
-    bool WriteIntoTemp(tempnode *node,tempitem *item);
-    Addr creatTemp(BufferManager* mgr,DirectorySegment* dir);
-    void transTemptoFrame(BufferFrame* frame,tempnode *item);
-    void transFrametoTemp(BufferFrame* frame,tempnode *item);
-    short readtempItem(tempitem* item,Byte* data);
-    short writetempItem(tempitem* item,Byte* data);
-    short findfristItem(BufferFrame* frame,tempnode* node);
-    short findnextItem(BufferFrame* frame,short offset,tempnode *node);
+    public:
+        tempnode *node;
+        tempSegment(BufferManager* mgr,DirectorySegment* dir,DataSegment* dataseg);
+        bool WriteIntoTemp(tempnode *node,tempitem *item);
+        Addr creatTemp(BufferManager* mgr,DirectorySegment* dir);
+        void transTemptoFrame(BufferFrame* frame,tempnode *item);
+        void transFrametoTemp(BufferFrame* frame,tempnode *item);
+        short readtempItem(tempitem* item,Byte* data);
+        short writetempItem(tempitem* item,Byte* data);
+        short findfristItem(BufferFrame* frame,tempnode* node);
+        short findnextItem(BufferFrame* frame,short offset,tempnode *node);
 };
 #endif // TEMPSEGMENT_H_INCLUDED

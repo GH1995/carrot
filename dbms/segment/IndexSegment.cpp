@@ -2,8 +2,8 @@
 #include "../index/BPTree.h"
 #include"../index/PrimaryHashIndex.h"
 #ifdef DEBUG_INDEX
-    #include <cstdio>
-    #include <cstdlib>
+#include <cstdio>
+#include <cstdlib>
 #endif // DEBUG
 void IndexSegment::initRootPage()
 {
@@ -30,12 +30,12 @@ IndexSegment::IndexSegment(BufferManager* mgr,DirectorySegment* dir,DataSegment*
     }
     else
     {
-      //  Addr tmpAddr = this->indexMetaAddr;
-       // while(tmpAddr>0)
-       // {
-            BufferFrame* frame = manager->requestPageForRead(indexMetaAddr);
-            transFrameToMeta(frame,this->indexMeta);
-            manager->finishRead(frame);
+        //  Addr tmpAddr = this->indexMetaAddr;
+        // while(tmpAddr>0)
+        // {
+        BufferFrame* frame = manager->requestPageForRead(indexMetaAddr);
+        transFrameToMeta(frame,this->indexMeta);
+        manager->finishRead(frame);
 
         //}
     }
@@ -49,15 +49,15 @@ void IndexSegment::flush()
 IndexSegment::~IndexSegment()
 {
     flush();
-     for(int i=0;i<this->indexMeta->useLen;i++)
+    for(int i=0;i<this->indexMeta->useLen;i++)
     {
-            IndexMetaItem* item = &indexMeta->indexList[i];
-            if(item->index!=0)
-            {
-                item->index->releaseAll();
-                delete item->index;
-                item->index=0;
-            }
+        IndexMetaItem* item = &indexMeta->indexList[i];
+        if(item->index!=0)
+        {
+            item->index->releaseAll();
+            delete item->index;
+            item->index=0;
+        }
     }
     delete this->indexMeta;
     this->indexMeta = 0;
@@ -69,9 +69,9 @@ short IndexSegment::transFrameToMeta(BufferFrame* frame,IndexMeta* meta)
     ushort flag = page->flag&SegmentType::mask;
     if(flag!=SegmentType::IndexSeg)
     {
-        #ifdef DEBUG_INDEX
-            printf("warning: this page is not a index segment page!\n");
-        #endif // DEBUG_INDEX
+#ifdef DEBUG_INDEX
+        printf("warning: this page is not a index segment page!\n");
+#endif // DEBUG_INDEX
     }
     //warning: the pageNo will be overwritten in the following code.
     meta->pageNo = frame->pageNo;
@@ -82,9 +82,9 @@ short IndexSegment::transFrameToMeta(BufferFrame* frame,IndexMeta* meta)
     int pos = 0;
     if(data[pos++]!=IndexMetaMagic)
     {
-                #ifdef DEBUG_INDEX
-            printf("warning: this position is not a indexMeta!\n");
-            #endif // DEBUG_INDEX
+#ifdef DEBUG_INDEX
+        printf("warning: this position is not a indexMeta!\n");
+#endif // DEBUG_INDEX
     }
     meta->tid=data[pos++];
     meta->fieldNum=data[pos++];
@@ -103,9 +103,9 @@ short IndexSegment::transFrameToMeta(BufferFrame* frame,IndexMeta* meta)
         data+=reads;
         if(reads!=12)
         {
-            #ifdef DEBUG_INDEX
-                printf("warning: an item is not equal to 12 when reading\n");
-            #endif // DEBUG_INDEX
+#ifdef DEBUG_INDEX
+            printf("warning: an item is not equal to 12 when reading\n");
+#endif // DEBUG_INDEX
         }
     }
 }
@@ -142,9 +142,9 @@ short IndexSegment::transMetaToFrame(IndexMeta* meta,BufferFrame* frame)
         data+=written;
         if(written!=12)
         {
-            #ifdef DEBUG_INDEX
-                printf("warning: an item is not equal to 12 when writing\n");
-            #endif // DEBUG_INDEX
+#ifdef DEBUG_INDEX
+            printf("warning: an item is not equal to 12 when writing\n");
+#endif // DEBUG_INDEX
         }
     }
 
@@ -169,9 +169,9 @@ short IndexSegment::readIndexMetaItem(IndexMetaItem* item,Byte* data)
     int pos =0;
     if(data[pos++]!=IndexItemMagic)
     {
-        #ifdef DEBUG_INDEX
+#ifdef DEBUG_INDEX
         printf("warning: read badly when reading the indexMetaItem!\n");
-        #endif
+#endif
     }
     item->fid = data[pos++];
     item->indexType=data[pos++];
@@ -183,29 +183,29 @@ short IndexSegment::readIndexMetaItem(IndexMetaItem* item,Byte* data)
 }
 Index* IndexSegment::createIndex(Byte fid,Byte indexType)
 {
-// 创建完毕后拿地址
+    // 创建完毕后拿地址
     IndexMetaItem* item = &this->indexMeta->indexList[this->indexMeta->useLen];
     item->fid = fid;
     item->indexLen = this->mts->getMetaData()->head->fieldList[fid].len;
     item->indexType=indexType;
     switch(indexType)
     {
-    case IndexType::eptidx:
-        item->index = new Index(this,fid,0);
-        item->indexAddr = item->index->getRootAddr();
-        item->index->create();
-        break;
-    case IndexType::bptidx:
-        item->index = new BPTree(this,fid,0,item);
-        item->indexAddr = item->index->getRootAddr();
-        item->index->create();
-        break;
-    case IndexType::hashidx:
-        printf("create index now");
-        item->index=new  PrimaryHashIndex(this,fid,0);
-        item->indexAddr=item->index->getRootAddr();
-        item->index->create();
-        break;
+        case IndexType::eptidx:
+            item->index = new Index(this,fid,0);
+            item->indexAddr = item->index->getRootAddr();
+            item->index->create();
+            break;
+        case IndexType::bptidx:
+            item->index = new BPTree(this,fid,0,item);
+            item->indexAddr = item->index->getRootAddr();
+            item->index->create();
+            break;
+        case IndexType::hashidx:
+            printf("create index now");
+            item->index=new  PrimaryHashIndex(this,fid,0);
+            item->indexAddr=item->index->getRootAddr();
+            item->index->create();
+            break;
     }
     this->indexMeta->useLen++;
     return item->index;
@@ -232,14 +232,14 @@ Index* IndexSegment::loadIndex(IndexMetaItem* item)
 }
 Index* IndexSegment::findIndex(Byte fid,Byte indexType)
 {
-    #ifdef DEBUG_INDEX
+#ifdef DEBUG_INDEX
     printf("indexMeta size:%d\n",this->indexMeta->useLen);
-    #endif // DEBUG_INDEX
+#endif // DEBUG_INDEX
     for(int i=0;i<this->indexMeta->useLen;i++)
     {
-            #ifdef DEBUG_INDEX
-    printf("indexMeta [%d] fid %d type %d\n",i,indexMeta->indexList[i].fid,indexMeta->indexList[i].indexType);
-    #endif // DEBUG_INDEX
+#ifdef DEBUG_INDEX
+        printf("indexMeta [%d] fid %d type %d\n",i,indexMeta->indexList[i].fid,indexMeta->indexList[i].indexType);
+#endif // DEBUG_INDEX
         if(indexMeta->indexList[i].fid==fid&&indexMeta->indexList[i].indexType==indexType)
         {
 

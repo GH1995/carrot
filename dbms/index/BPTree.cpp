@@ -11,14 +11,14 @@ void BPTree::BPTIterator::findFirst(IndexItem* item)
     if(this->cursor>=currentNode->keyNum)
     {
         if(this->currentNode->next!=0)
-         {
-             tree->getBPTNode(this->currentNode,this->currentNode->next);
-             this->cursor=0;
-         }
-         else
-         {
-             return ;
-         }
+        {
+            tree->getBPTNode(this->currentNode,this->currentNode->next);
+            this->cursor=0;
+        }
+        else
+        {
+            return ;
+        }
     }
     memcpy(item->key,currentNode->keys[this->cursor],8);
     item->addr = currentNode->children[this->cursor++];
@@ -26,22 +26,22 @@ void BPTree::BPTIterator::findFirst(IndexItem* item)
 }
 void BPTree::BPTIterator::findNext(IndexItem* item)
 {
-        if(knownEmpty)return ;
+    if(knownEmpty)return ;
     if(currentNode->pageNo==PAGE_ID(this->end)&&this->cursor>=tail)
     {
         return ;
     }
     if(this->cursor>=this->currentNode->keyNum)
     {
-         if(this->currentNode->next!=0)
-         {
-             tree->getBPTNode(this->currentNode,this->currentNode->next);
-             this->cursor=0;
-         }
-         else
-         {
-             return ;
-         }
+        if(this->currentNode->next!=0)
+        {
+            tree->getBPTNode(this->currentNode,this->currentNode->next);
+            this->cursor=0;
+        }
+        else
+        {
+            return ;
+        }
     }
     memcpy(item->key,currentNode->keys[this->cursor],8);
     item->addr = currentNode->children[this->cursor++];
@@ -67,9 +67,9 @@ BPTree::BPTIterator::BPTIterator(Addr addr1,int offset1,Addr addr2,int offset2,B
     this->tail = offset2;
     this->currentNode = 0;
     this->cursor=offset1;
-    #ifdef DEBUG_INDEX
-        printf("construct an iterator with begin %llx offset %d end %llx offset %d\n",begin,head,end,tail);
-    #endif // DEBUG_INDEX
+#ifdef DEBUG_INDEX
+    printf("construct an iterator with begin %llx offset %d end %llx offset %d\n",begin,head,end,tail);
+#endif // DEBUG_INDEX
     this->tree = bptree;
     if(this->tree->indexRootAddr==end&&tail<=0)
     {
@@ -122,19 +122,19 @@ void BPTree::create()
         Tuple* tuple = this->dts->buildEmptyTuple();
         IndexItem* item = this->buildItem();
         this->dts->findFirstTuple(tuple);
-       // int cnt = 0;
+        // int cnt = 0;
         while(tuple->tupleAddr>0)
         {
             cnt++;
-                Addr old = tuple->tupleAddr;
-                item->addr = old;
-                memcpy(item->key,tuple->column[this->fieldId].data,this->indexLen);
-                this->insertElem(item,false);
-                this->dts->findNextTuple(tuple,tuple);
-                if(tuple->tupleAddr==old)
-                {
-                        break;
-                }
+            Addr old = tuple->tupleAddr;
+            item->addr = old;
+            memcpy(item->key,tuple->column[this->fieldId].data,this->indexLen);
+            this->insertElem(item,false);
+            this->dts->findNextTuple(tuple,tuple);
+            if(tuple->tupleAddr==old)
+            {
+                break;
+            }
             if(cnt==300)
             {
                 //this->printNode(root);
@@ -142,8 +142,8 @@ void BPTree::create()
                 //getchar();
             }
         }
-                       this->printTreeBFS();
-                  //  getchar();
+        this->printTreeBFS();
+        //  getchar();
         this->releaseIndexItem(item);
         item = 0;
         this->dts->releaseEmptyTuple(tuple);
@@ -208,7 +208,7 @@ IndexIterator* BPTree::findByRange(void* key1,void* key2){
     pos2++;
     if(this->dataType==DataTypeFlag::FLOAT)
     {
-       // printf("pos2 offset = %d\n",pos2);
+        // printf("pos2 offset = %d\n",pos2);
     }
     Addr addr2 = PAGE_ADDR(node->pageNo);
     memcpy(data,key1,this->indexLen);
@@ -249,23 +249,23 @@ int BPTree::insertElemAtPos(IndexItem* item,BPTNode* node,int pos)
 }
 Addr BPTree::getNewBPTNode(BPTNode* node,Byte nodeType)
 {
-        Addr addr = drs->allocateBlock(SegmentType::IndexSeg,PageStatus::FullPage);
-        BufferFrame* frame = this->manager->requestPageForWrite(addr,false);
-//        BPTNode* node = new BPTNode();
-        node->fid = this->fieldId;
-        node->nodeType=nodeType;
-        node->keyNum=0;
-        node->parentAddr=0;
-        node->previous=0;
-        node->next=0;
-        node->pageNo = frame->pageNo;
-        transNodeToFrame(root,frame);
-        frame->edit = true;
-        this->manager->finishWrite(frame);
-        return addr;
+    Addr addr = drs->allocateBlock(SegmentType::IndexSeg,PageStatus::FullPage);
+    BufferFrame* frame = this->manager->requestPageForWrite(addr,false);
+    //        BPTNode* node = new BPTNode();
+    node->fid = this->fieldId;
+    node->nodeType=nodeType;
+    node->keyNum=0;
+    node->parentAddr=0;
+    node->previous=0;
+    node->next=0;
+    node->pageNo = frame->pageNo;
+    transNodeToFrame(root,frame);
+    frame->edit = true;
+    this->manager->finishWrite(frame);
+    return addr;
 }
- void BPTree::getBPTNode(BPTNode* node,Addr addr)
- {
+void BPTree::getBPTNode(BPTNode* node,Addr addr)
+{
     BufferFrame* frame = this->manager->requestPageForRead(addr);
     if(frame->pageNo==0||addr==0)
     {
@@ -273,7 +273,7 @@ Addr BPTree::getNewBPTNode(BPTNode* node,Byte nodeType)
     }
     transFrameToNode(frame,node);
     manager->finishRead(frame);
- }
+}
 void BPTree::flushNode(BPTNode* node)
 {
     if(node->pageNo==0)return;
@@ -284,7 +284,7 @@ void BPTree::flushNode(BPTNode* node)
 }
 void BPTree::nonleafcpy(BPTNode* dest,BPTNode* src,int dest_offset,int src_offset,int len)
 {
-        for(int i=0;i<len;i++)
+    for(int i=0;i<len;i++)
     {
         memcpy(dest->keys[dest_offset+i],src->keys[src_offset+i],8);
         dest->children[dest_offset+i]=src->children[src_offset+i];
@@ -303,80 +303,80 @@ Addr BPTree::searchBPTNode(BPTNode* node,Byte* data)
 {
     int pos = findUpBound(data,root);
     if((root->nodeType&BPTNodeType::hasData)!=0){
-                            #ifdef DEBUG_INDEX
-               // printf("visit root1 %llx\n",PAGE_ADDR(root->pageNo));
-            #endif // DEBUG_INDEX
-         //   printf("1____________________\n");
-            getBPTNode(node,PAGE_ADDR(root->pageNo));
-            return root->pageNo;
+#ifdef DEBUG_INDEX
+        // printf("visit root1 %llx\n",PAGE_ADDR(root->pageNo));
+#endif // DEBUG_INDEX
+        //   printf("1____________________\n");
+        getBPTNode(node,PAGE_ADDR(root->pageNo));
+        return root->pageNo;
     }
-        #ifdef DEBUG_INDEX
-        //if(pos+1==root->keyNum)
-           //     printf("overflow!!!!!!!!!!!!!!!!!!!!!!!\n");
-        #endif // DEBUG_INDEX
+#ifdef DEBUG_INDEX
+    //if(pos+1==root->keyNum)
+    //     printf("overflow!!!!!!!!!!!!!!!!!!!!!!!\n");
+#endif // DEBUG_INDEX
     Addr addr = root->children[pos+1];
-   // printf("2____________________\n");
+    // printf("2____________________\n");
 
     getBPTNode(node,addr);
     node->parentAddr = PAGE_ADDR(root->pageNo);
     flushNode(node);
     Addr parent = PAGE_ADDR(node->pageNo);
-    #ifdef DEBUG_INDEX
-                //printf("visit node1 %llx\n",PAGE_ADDR(node->pageNo));
-            #endif
+#ifdef DEBUG_INDEX
+    //printf("visit node1 %llx\n",PAGE_ADDR(node->pageNo));
+#endif
     while((node->nodeType&BPTNodeType::hasData)==0)
     {
 
-                                #ifdef DEBUG_INDEX
-               // printf("visit node1 %llx\n",PAGE_ADDR(node->pageNo));
-            #endif // DEBUG_INDEX
-            int pos = findUpBound(data,node);
-            //寻找大于该值v的前一个元素k, v>=k
-            // c[index]<k,c[index+1]>=k
-            // 当v>k时，取index+1
-            //当v=k时，取index+1
-                    #ifdef DEBUG_INDEX
-//    if(pos+1==root->keyNum)
-   //             printf("overflow2!!!!!!!!!!!!!!!!!!!!!!!\n");
+#ifdef DEBUG_INDEX
+        // printf("visit node1 %llx\n",PAGE_ADDR(node->pageNo));
+#endif // DEBUG_INDEX
+        int pos = findUpBound(data,node);
+        //寻找大于该值v的前一个元素k, v>=k
+        // c[index]<k,c[index+1]>=k
+        // 当v>k时，取index+1
+        //当v=k时，取index+1
+#ifdef DEBUG_INDEX
+        //    if(pos+1==root->keyNum)
+        //             printf("overflow2!!!!!!!!!!!!!!!!!!!!!!!\n");
         if(node->children[pos+1]<PAGE_SIZE)
         {
             printNode(node);
         }
-        #endif // DEBUG_INDEX
-            Addr addr = node->children[pos+1];
-     //       printf("3____________________\n");
-            getBPTNode(node,addr);
-            node->parentAddr = parent;
-            flushNode(node);
-            parent = PAGE_ADDR(node->pageNo);
+#endif // DEBUG_INDEX
+        Addr addr = node->children[pos+1];
+        //       printf("3____________________\n");
+        getBPTNode(node,addr);
+        node->parentAddr = parent;
+        flushNode(node);
+        parent = PAGE_ADDR(node->pageNo);
     }
 
     if((node->nodeType&BPTNodeType::hasData)!=0)
     {
-                                        #ifdef DEBUG_INDEX
-              //  printf(" node type1 %llx\n",node->nodeType);
-            #endif // DEBUG_INDEX
+#ifdef DEBUG_INDEX
+        //  printf(" node type1 %llx\n",node->nodeType);
+#endif // DEBUG_INDEX
     }
     return node->pageNo;
 }//todo
 Addr BPTree::searchBPTNode2(BPTNode* node,Byte* data)
 {
     int pos = findLowBound(data,root);
-                #ifdef DEBUG_INDEX
-          //      printf("visit root %llx\n",PAGE_ADDR(root->pageNo));
-            #endif // DEBUG_INDEX
+#ifdef DEBUG_INDEX
+    //      printf("visit root %llx\n",PAGE_ADDR(root->pageNo));
+#endif // DEBUG_INDEX
     //pos 位置的元素k, k>data或k=data
     if((root->nodeType&BPTNodeType::hasData)!=0){
-            #ifdef DEBUG_INDEX
-                printf("root has Data\n");;
-            #endif // DEBUG_INDEX
-       //     printf("4____________________\n");
-            getBPTNode(node,PAGE_ADDR(root->pageNo));
-            return root->pageNo;
+#ifdef DEBUG_INDEX
+        printf("root has Data\n");;
+#endif // DEBUG_INDEX
+        //     printf("4____________________\n");
+        getBPTNode(node,PAGE_ADDR(root->pageNo));
+        return root->pageNo;
     }
     if(DataUtil::cmpData(data,root->keys[pos],this->dataType,this->indexLen)==0)pos++;
     Addr addr = root->children[pos];
-   // printf("5____________________\n");
+    // printf("5____________________\n");
     getBPTNode(node,addr);
     node->parentAddr = PAGE_ADDR(root->pageNo);
     flushNode(node);
@@ -384,90 +384,90 @@ Addr BPTree::searchBPTNode2(BPTNode* node,Byte* data)
 
     while((node->nodeType&BPTNodeType::hasData)==0)
     {
-                        #ifdef DEBUG_INDEX
-               // printf("visit node %llx\n",PAGE_ADDR(node->pageNo));
-            #endif // DEBUG_INDEX
-            int pos = findLowBound(data,node);
-            if(DataUtil::cmpData(data,node->keys[pos],this->dataType,this->indexLen)==0)pos++;
-            //寻找不小于该值v的后一个元素k, k>=v
-            // c[index]<k,c[index+1]>=k
-            // 当v<k时，取index
-            //当v=k时，取index+1
-            Addr addr = node->children[pos];
-      //      printf("6____________________\n");
-            getBPTNode(node,addr);
-            node->parentAddr = parent;
-            flushNode(node);
-            parent = PAGE_ADDR(node->pageNo);
+#ifdef DEBUG_INDEX
+        // printf("visit node %llx\n",PAGE_ADDR(node->pageNo));
+#endif // DEBUG_INDEX
+        int pos = findLowBound(data,node);
+        if(DataUtil::cmpData(data,node->keys[pos],this->dataType,this->indexLen)==0)pos++;
+        //寻找不小于该值v的后一个元素k, k>=v
+        // c[index]<k,c[index+1]>=k
+        // 当v<k时，取index
+        //当v=k时，取index+1
+        Addr addr = node->children[pos];
+        //      printf("6____________________\n");
+        getBPTNode(node,addr);
+        node->parentAddr = parent;
+        flushNode(node);
+        parent = PAGE_ADDR(node->pageNo);
     }
-        if((node->nodeType&BPTNodeType::hasData)!=0)
+    if((node->nodeType&BPTNodeType::hasData)!=0)
     {
-                                        #ifdef DEBUG_INDEX
-              //  printf(" node type %llx\n",node->nodeType);
-            #endif // DEBUG_INDEX
+#ifdef DEBUG_INDEX
+        //  printf(" node type %llx\n",node->nodeType);
+#endif // DEBUG_INDEX
     }
     return node->pageNo;
 }
 void BPTree::insertNodeRecursively(Addr addr,IndexItem* item)
 {
     BPTNode* node = new BPTNode();
-        //    printf("7____________________\n");
+    //    printf("7____________________\n");
     getBPTNode(node,addr);
     if((node->nodeType&BPTNodeType::hasData)!=0)
     {
-                    //分裂
-            BPTNode* smaller = node;
-            BPTNode* bigger = new BPTNode();
-            this->getNewBPTNode(bigger,BPTNodeType::hasData);
-            int mid = smaller->keyNum/2;
-            int cmpk = DataUtil::cmpData(smaller->keys[mid],reinterpret_cast<Byte*>(item->key),this->dataType,this->indexLen);
-            if(cmpk>0)
-            {
-                //中间项较大，待插入元素较小,[MID-RIGHT]移动到bigger
-                int mlen =  smaller->keyNum-mid;
-                leafcpy(bigger,smaller,0,mid,mlen);
-                smaller->keyNum = mid;
-                bigger->keyNum=mlen;
-                int pos = findUpBound(reinterpret_cast<Byte*>(item->key),smaller);
-                insertElemAtPos(item,smaller,pos+1);
-            }else
-            {
-                //中间项较小，待插入元素较大,[MID+1-RIGHT]移动到bigger
-                int mlen = smaller->keyNum-mid-1;
-                leafcpy(bigger,smaller,0,mid+1,mlen);
-                smaller->keyNum=mid+1;
-                bigger->keyNum=mlen;
-                int pos = findUpBound(reinterpret_cast<Byte*>(item->key),bigger);
-                insertElemAtPos(item,bigger,pos+1);
-            }
-            bigger->next=smaller->next;
-            smaller->next = PAGE_ADDR(bigger->pageNo);
-            bigger->previous= PAGE_ADDR(smaller->pageNo);
-            bigger->parentAddr=smaller->parentAddr;
-            if(bigger->next!=0)
-            {
-                BPTNode* tmp = new BPTNode();
-        //        printf("8____________________\n");
-                getBPTNode(tmp,bigger->next);
-                tmp->previous=PAGE_ADDR(bigger->pageNo);
-                flushNode(tmp);
-                delete tmp;
-            }
-            flushNode(bigger);
-            flushNode(smaller);
+        //分裂
+        BPTNode* smaller = node;
+        BPTNode* bigger = new BPTNode();
+        this->getNewBPTNode(bigger,BPTNodeType::hasData);
+        int mid = smaller->keyNum/2;
+        int cmpk = DataUtil::cmpData(smaller->keys[mid],reinterpret_cast<Byte*>(item->key),this->dataType,this->indexLen);
+        if(cmpk>0)
+        {
+            //中间项较大，待插入元素较小,[MID-RIGHT]移动到bigger
+            int mlen =  smaller->keyNum-mid;
+            leafcpy(bigger,smaller,0,mid,mlen);
+            smaller->keyNum = mid;
+            bigger->keyNum=mlen;
+            int pos = findUpBound(reinterpret_cast<Byte*>(item->key),smaller);
+            insertElemAtPos(item,smaller,pos+1);
+        }else
+        {
+            //中间项较小，待插入元素较大,[MID+1-RIGHT]移动到bigger
+            int mlen = smaller->keyNum-mid-1;
+            leafcpy(bigger,smaller,0,mid+1,mlen);
+            smaller->keyNum=mid+1;
+            bigger->keyNum=mlen;
+            int pos = findUpBound(reinterpret_cast<Byte*>(item->key),bigger);
+            insertElemAtPos(item,bigger,pos+1);
+        }
+        bigger->next=smaller->next;
+        smaller->next = PAGE_ADDR(bigger->pageNo);
+        bigger->previous= PAGE_ADDR(smaller->pageNo);
+        bigger->parentAddr=smaller->parentAddr;
+        if(bigger->next!=0)
+        {
+            BPTNode* tmp = new BPTNode();
+            //        printf("8____________________\n");
+            getBPTNode(tmp,bigger->next);
+            tmp->previous=PAGE_ADDR(bigger->pageNo);
+            flushNode(tmp);
+            delete tmp;
+        }
+        flushNode(bigger);
+        flushNode(smaller);
 
-            IndexItem* newItem = this->buildItem();
-            #ifdef DEBUG_INDEX
-                        char chr[255];
+        IndexItem* newItem = this->buildItem();
+#ifdef DEBUG_INDEX
+        char chr[255];
         DataUtil::toString(chr,bigger->keys[0],this->dataType);
-            //printf("insert upward %s\n",chr);
-            #endif // DEBUG_INDEX
-            memcpy(newItem->key,bigger->keys[0],8);
-            newItem->addr=smaller->next;
-                        delete bigger;
-            insertNodeRecursively(smaller->parentAddr,newItem);
-            this->releaseIndexItem(newItem);
-            delete node;
+        //printf("insert upward %s\n",chr);
+#endif // DEBUG_INDEX
+        memcpy(newItem->key,bigger->keys[0],8);
+        newItem->addr=smaller->next;
+        delete bigger;
+        insertNodeRecursively(smaller->parentAddr,newItem);
+        this->releaseIndexItem(newItem);
+        delete node;
     }else
     {
         BPTNode* tmpNode = node;
@@ -479,8 +479,8 @@ void BPTree::insertNodeRecursively(Addr addr,IndexItem* item)
             flushNode(tmpNode);
         }else
         {
-         //   printf("before split\n");
-           // this->printNode(tmpNode);
+            //   printf("before split\n");
+            // this->printNode(tmpNode);
             BPTNode* smaller = tmpNode;
             BPTNode* bigger = new BPTNode();
             this->getNewBPTNode(bigger,0);
@@ -493,7 +493,7 @@ void BPTree::insertNodeRecursively(Addr addr,IndexItem* item)
             Addr a0 = smaller->children[0];
             insertNonLeafAtPos(item,tmpNode,pos+1);
             smaller->children[0]=a0;
-         //       printf("after insert pos %d addr %llx\n",pos,item->addr);
+            //       printf("after insert pos %d addr %llx\n",pos,item->addr);
             //this->printNode(tmpNode);
             int num = (smaller->keyNum+1)/2;
             int mlen = smaller->keyNum-num-1;
@@ -509,18 +509,18 @@ void BPTree::insertNodeRecursively(Addr addr,IndexItem* item)
             flushNode(smaller);
             flushNode(bigger);
             printf("after split %d\n",splitTime++);
-        //    this->printNode(smaller);
-          //  this->printNode(bigger);
+            //    this->printNode(smaller);
+            //  this->printNode(bigger);
             if(smaller->parentAddr!=0)
             {
-                           delete bigger;
+                delete bigger;
                 insertNodeRecursively(smaller->parentAddr,newItem);
             }else
             {
-                                                    //   this->printTreeBFS();
-                    //getchar();
+                //   this->printTreeBFS();
+                //getchar();
                 BPTNode* oldrt = root;
-                 BPTNode* rt = new BPTNode();
+                BPTNode* rt = new BPTNode();
                 this->getNewBPTNode(rt,BPTNodeType::isRoot);
                 smaller->parentAddr=PAGE_ADDR(rt->pageNo);
                 bigger->parentAddr=smaller->parentAddr;
@@ -534,9 +534,9 @@ void BPTree::insertNodeRecursively(Addr addr,IndexItem* item)
 
                 flushNode(rt);
                 changeRoot(rt);
-                                     //  this->printTreeBFS();
-                   // getchar();
-               // printf("rec change!\n");
+                //  this->printTreeBFS();
+                // getchar();
+                // printf("rec change!\n");
                 delete oldrt;
                 delete bigger;
             }
@@ -570,46 +570,46 @@ void BPTree::printNode(BPTNode* node)
 }
 void BPTree::printTreeBFS()
 {
-        std::queue<Addr> que;
-        Addr tmp=PAGE_ADDR(root->pageNo);
+    std::queue<Addr> que;
+    Addr tmp=PAGE_ADDR(root->pageNo);
 
-        que.push(tmp);
-        printf("in queue %llx pageNo %llx\n",tmp,root->pageNo);
-                    BPTNode* node = new BPTNode();
+    que.push(tmp);
+    printf("in queue %llx pageNo %llx\n",tmp,root->pageNo);
+    BPTNode* node = new BPTNode();
 
-        while(!que.empty())
-        {
-            tmp = que.front();
+    while(!que.empty())
+    {
+        tmp = que.front();
         printf("out queue %llx\n",tmp);
-          //  printf("9____________________\n");
-            getBPTNode(node,tmp);
-            que.pop();
-            if((node->nodeType&BPTNodeType::hasData)==0)
+        //  printf("9____________________\n");
+        getBPTNode(node,tmp);
+        que.pop();
+        if((node->nodeType&BPTNodeType::hasData)==0)
+        {
+            for(int i=0;i<node->keyNum+1;i++)
             {
-                for(int i=0;i<node->keyNum+1;i++)
-                {
-                    que.push(node->children[i]);
-                    printf("in queue %llx parent %llx\n",node->children[i],tmp);
-                }
+                que.push(node->children[i]);
+                printf("in queue %llx parent %llx\n",node->children[i],tmp);
             }
-            else
-            {
-                #ifdef DEBUG_INDEX
-                printf("node %llx has data\n",PAGE_ADDR(node->pageNo));
-                #endif // DEBUG_INDEX
-            }
-            printNode(node);
         }
-        delete node;
+        else
+        {
+#ifdef DEBUG_INDEX
+            printf("node %llx has data\n",PAGE_ADDR(node->pageNo));
+#endif // DEBUG_INDEX
+        }
+        printNode(node);
+    }
+    delete node;
 }
 void BPTree::changeRoot(BPTNode* node)
 {
     this->root = node;
     this->indexRootAddr=PAGE_ADDR(node->pageNo);
     this->item->indexAddr=this->indexRootAddr;
-                    #ifdef DEBUG_INDEX
-                printf("allocate new root addr %llx\n",PAGE_ADDR(node->pageNo));
-                #endif // DEBUG_INDEX
+#ifdef DEBUG_INDEX
+    printf("allocate new root addr %llx\n",PAGE_ADDR(node->pageNo));
+#endif // DEBUG_INDEX
 }
 Addr BPTree::insertElem(IndexItem* item,bool check){
     if(check)
@@ -620,15 +620,15 @@ Addr BPTree::insertElem(IndexItem* item,bool check){
     {
         if(root->keyNum<MAX_KEY_SIZE)
         {
-          // 可以直接插入
-          Byte  bkey[8];
-          memcpy(bkey,item->key,8);
+            // 可以直接插入
+            Byte  bkey[8];
+            memcpy(bkey,item->key,8);
             int pos = findUpBound(bkey,root);
-            #ifdef DEBUG_INDEX
-           //char chr[255];
-           // DataUtil::toString(chr,bkey,this->dataType);
-          //  printf("%s position is %d\n",chr,pos+1);
-            #endif // DEBUG_INDEX
+#ifdef DEBUG_INDEX
+            //char chr[255];
+            // DataUtil::toString(chr,bkey,this->dataType);
+            //  printf("%s position is %d\n",chr,pos+1);
+#endif // DEBUG_INDEX
             insertElemAtPos(item,root,pos+1);
         }
         else
@@ -661,11 +661,11 @@ Addr BPTree::insertElem(IndexItem* item,bool check){
                 insertElemAtPos(item,bigger,pos+1);
             }
             rt->keyNum=1;
-                        #ifdef DEBUG_INDEX
-                        char chr[255];
-        DataUtil::toString(chr,bigger->keys[0],this->dataType);
+#ifdef DEBUG_INDEX
+            char chr[255];
+            DataUtil::toString(chr,bigger->keys[0],this->dataType);
             //printf("insert upward %s\n",chr);
-            #endif // DEBUG_INDEX
+#endif // DEBUG_INDEX
             memcpy(rt->keys[0],bigger->keys[0],8);
             rt->children[0]=PAGE_ADDR(smaller->pageNo);
             rt->children[1]=PAGE_ADDR(bigger->pageNo);
@@ -679,14 +679,14 @@ Addr BPTree::insertElem(IndexItem* item,bool check){
             flushNode(bigger);
             flushNode(root);
             delete smaller;
-            #ifdef DEBUG_INDEX
+#ifdef DEBUG_INDEX
             printf("\nbigger %llx\n\n",bigger);
-           // this->printTreeBFS();
-            #endif // DEBUG_INDEX
+            // this->printTreeBFS();
+#endif // DEBUG_INDEX
             delete bigger;
-                        #ifdef DEBUG_INDEX
+#ifdef DEBUG_INDEX
             printf("\nbigger2 %llx\n\n",bigger);
-            #endif // DEBUG_INDEX
+#endif // DEBUG_INDEX
         }
     }
     else
@@ -713,13 +713,13 @@ Addr BPTree::insertElem(IndexItem* item,bool check){
 int  BPTree::findLowBound(Byte* data,BPTNode* node)
 {
     /*
-        for(int i=0;i<node->keyNum;i++)
+       for(int i=0;i<node->keyNum;i++)
        {
-           int jd = DataUtil::cmpData(node->keys[i],data,this->dataType,this->indexLen);
-           if(jd>=0)return i;
+       int jd = DataUtil::cmpData(node->keys[i],data,this->dataType,this->indexLen);
+       if(jd>=0)return i;
        }
        return node->keyNum;
-        */
+       */
     int left = 0;
     int right = node->keyNum-1;
     if(right<0)return 0;
@@ -755,49 +755,49 @@ int  BPTree::findLowBound(Byte* data,BPTNode* node)
 
 }
 // 返回大于它的前一个元素的index,也就是当前元素是小于等于它的元素中标号最大者
-   int BPTree::findUpBound(Byte* data,BPTNode* node)
-   {
-        /*
+int BPTree::findUpBound(Byte* data,BPTNode* node)
+{
+    /*
        for(int i=0;i<node->keyNum;i++)
        {
-           int jd = DataUtil::cmpData(node->keys[i],data,this->dataType,this->indexLen);
-           if(jd>0)return i-1;
+       int jd = DataUtil::cmpData(node->keys[i],data,this->dataType,this->indexLen);
+       if(jd>0)return i-1;
        }
        return node->keyNum-1;
        */
-          int left = 0;
-        int right = node->keyNum-1;
-        if(right<0)return right;
-        int jd = DataUtil::cmpData(node->keys[left],data,this->dataType,this->indexLen);
-        //最小的元素也比它大，返回-1
-        if(jd>0)return -1;
-        jd = DataUtil::cmpData(node->keys[right],data,this->dataType,this->indexLen);
-        //最大的元素也比他小或相等，返回right
-        if(jd<=0)return right;
-        while(left<=right)
+    int left = 0;
+    int right = node->keyNum-1;
+    if(right<0)return right;
+    int jd = DataUtil::cmpData(node->keys[left],data,this->dataType,this->indexLen);
+    //最小的元素也比它大，返回-1
+    if(jd>0)return -1;
+    jd = DataUtil::cmpData(node->keys[right],data,this->dataType,this->indexLen);
+    //最大的元素也比他小或相等，返回right
+    if(jd<=0)return right;
+    while(left<=right)
+    {
+        int mid = (left+right)/2;
+        int k = DataUtil::cmpData(node->keys[mid],data,this->dataType,this->indexLen);
+        //中间位置小于等于data
+        if(k<=0)
         {
-            int mid = (left+right)/2;
-            int k = DataUtil::cmpData(node->keys[mid],data,this->dataType,this->indexLen);
-            //中间位置小于等于data
-            if(k<=0)
-            {
-                left = mid +1;
-            }else
-            {
-                //中间位置大于data
-                right = mid-1;
-            }
-        }
-        //当right<left时，跳出循环，此时key[right]<data
-        while(right<node->keyNum-1)
+            left = mid +1;
+        }else
         {
-            int k = DataUtil::cmpData(node->keys[right+1],data,this->dataType,this->indexLen);
-            if(k>0)return right;
-            right++;
+            //中间位置大于data
+            right = mid-1;
         }
-        return right;
+    }
+    //当right<left时，跳出循环，此时key[right]<data
+    while(right<node->keyNum-1)
+    {
+        int k = DataUtil::cmpData(node->keys[right+1],data,this->dataType,this->indexLen);
+        if(k>0)return right;
+        right++;
+    }
+    return right;
 
-   }
+}
 void BPTree::editItem(Addr addr,IndexItem* item,IndexItem* item2)
 {
     BPTNode* node = new BPTNode();
@@ -844,8 +844,8 @@ void BPTree::deleteElementFromNode(Addr addr,IndexItem* item)
             bool leftAvailable = false;
             bool rightAvailable = false;
             if(leftAddr!=0){
-                    getBPTNode(nodepre,node->previous);
-                    if(nodepre->parentAddr==node->parentAddr)leftAvailable= true;
+                getBPTNode(nodepre,node->previous);
+                if(nodepre->parentAddr==node->parentAddr)leftAvailable= true;
             }
             if(leftAvailable&&nodepre->keyNum>(MAX_KEY_SIZE+1)/2)
             {
@@ -872,8 +872,8 @@ void BPTree::deleteElementFromNode(Addr addr,IndexItem* item)
             {
                 BPTNode* nodenext = nodepre;
                 if(rightAddr!=0){
-                        getBPTNode(nodenext,node->next);
-                        if(nodenext->parentAddr==node->parentAddr)rightAvailable = true;
+                    getBPTNode(nodenext,node->next);
+                    if(nodenext->parentAddr==node->parentAddr)rightAvailable = true;
                 }
                 if(rightAvailable&&nodenext->keyNum>(MAX_KEY_SIZE+1)/2)
                 {
@@ -956,9 +956,9 @@ void BPTree::getSiblingAddress(BPTNode* node,Addr& leftAddr,Addr& rightAddr)
     int pos = findAddressPosition(parent,PAGE_ADDR(node->pageNo));
     if(pos<0||pos>parent->keyNum)
     {
-        #ifdef DEBUG_INDEX
+#ifdef DEBUG_INDEX
         printf("we cannot get the addr in current node,sibling addr\n");
-        #endif // DEBUG_INDEX
+#endif // DEBUG_INDEX
     }
     if(pos>0)leftAddr = parent->children[pos-1];
     if(pos<parent->keyNum)rightAddr=parent->children[pos+1];
@@ -974,9 +974,9 @@ void BPTree::deleteElementFromNonLeafNodeByAddress(Addr addr,IndexItem* items)
     int pos = findAddressPosition(node,items->addr);
     if(pos<=0)
     {
-        #ifdef DEBUG_INDEX
-            printf("warning: delete the leftest element.\n");
-        #endif // DEBUG_INDEX
+#ifdef DEBUG_INDEX
+        printf("warning: delete the leftest element.\n");
+#endif // DEBUG_INDEX
     }else
     {
         memcpy(items->key,node->keys[pos-1],this->indexLen);
@@ -1026,7 +1026,7 @@ void BPTree::deleteElementFromNonLeafNodeByAddress(Addr addr,IndexItem* items)
                     node->children[0]=nodepre->children[nodepre->keyNum-1];
                     node->keyNum++;
                     nodepre->keyNum--;
-                                        //TODO: edit parent
+                    //TODO: edit parent
                     IndexItem* editItem = this->buildItem();
                     IndexItem* kitem = this->buildItem();
                     memcpy(editItem->key,node->keys[0],this->indexLen);
@@ -1113,16 +1113,16 @@ void BPTree::mergeTwo(Addr leftAddr,Addr rightAddr)
     if(lnode->parentAddr!=rnode->parentAddr)
     {
         canMerge = false;
-        #ifdef DEBUG_INDEX
-            printf("error: two node has different parent addr!\n");
-        #endif // DEBUG_INDEX
+#ifdef DEBUG_INDEX
+        printf("error: two node has different parent addr!\n");
+#endif // DEBUG_INDEX
     }
     if(isLeaf&&lnode->next!=PAGE_ADDR(rnode->pageNo))
     {
         canMerge = false;
-        #ifdef DEBUG_INDEX
-            printf("error: two nodes are not siblings!\n");
-        #endif
+#ifdef DEBUG_INDEX
+        printf("error: two nodes are not siblings!\n");
+#endif
     }
     if(canMerge)
     {
@@ -1135,7 +1135,7 @@ void BPTree::mergeTwo(Addr leftAddr,Addr rightAddr)
         }
 
         IndexItem* items = this->buildItem();
-            //IndexItem* ret = this->buildItem();
+        //IndexItem* ret = this->buildItem();
         items->addr = PAGE_ADDR(rnode->pageNo);
         this->deleteElementFromNonLeafNodeByAddress(lnode->parentAddr,items);
         if(!isLeaf)
@@ -1154,32 +1154,32 @@ void BPTree::mergeTwo(Addr leftAddr,Addr rightAddr)
     delete rnode;
 }
 Addr BPTree::deleteElem(IndexItem* item){
-        IndexItem *it = this->buildItem();
-        BPTIterator *iterator = 0;
-        Addr currentnodeaddr = 0;
-        BPTNode* cnode = new BPTNode();
-        iterator=dynamic_cast<BPTIterator*>(findByKey(item->key));
-        Addr old = 0;
-        for(iterator->findFirst(it);true;iterator->findNext(it))
+    IndexItem *it = this->buildItem();
+    BPTIterator *iterator = 0;
+    Addr currentnodeaddr = 0;
+    BPTNode* cnode = new BPTNode();
+    iterator=dynamic_cast<BPTIterator*>(findByKey(item->key));
+    Addr old = 0;
+    for(iterator->findFirst(it);true;iterator->findNext(it))
+    {
+        if(old==it->addr)break;
+        old = it->addr;
+        if(it->addr==item->addr)
         {
-            if(old==it->addr)break;
-            old = it->addr;
-            if(it->addr==item->addr)
-                {
-                    currentnodeaddr=PAGE_ADDR(iterator->currentNode->pageNo);
-                    getBPTNode(cnode,currentnodeaddr);
-                }
-
+            currentnodeaddr=PAGE_ADDR(iterator->currentNode->pageNo);
+            getBPTNode(cnode,currentnodeaddr);
         }
-        this->destoryIterator(iterator);
-        delete cnode;cnode = 0;
-        if(currentnodeaddr!=0)
-        {
-            deleteElementFromNode(currentnodeaddr,item);
-        }else
-        {
 
-        }
+    }
+    this->destoryIterator(iterator);
+    delete cnode;cnode = 0;
+    if(currentnodeaddr!=0)
+    {
+        deleteElementFromNode(currentnodeaddr,item);
+    }else
+    {
+
+    }
 
 }
 IndexItem* BPTree::buildItem(){
@@ -1209,156 +1209,156 @@ BPTree::~BPTree(){
 
 short BPTree::transNodeToFrame(BPTNode* node,BufferFrame* frame)
 {
-        Page* page = frame->page;
-        Byte* data = page->data;
-        page->usedByte = PAGE_BODY_LEN;
-        page->usedLen=0;
-        page->usedByteList[0].addr=0;
-        page->usedByteList[0].len=0;
-        ushort flag = page->flag;
-        flag = flag&(~SegmentType::mask)|SegmentType::IndexSeg&(~PageStatus::mask)|PageStatus::FullPage;
-        page->flag = flag;
-        data+=PAGE_HEAD_LEN;
-        data+=PAGE_ALIGN;
-        Byte* old = data;
-        int pos = 0;
-        data[pos++]=BPTNODE_MAGIC;
-        data[pos++]=node->fid;
-        data[pos++]=node->nodeType;
-        data[pos++]=BPTNODE_MAGIC;
-        data+=pos;
-        memcpy(data,&node->keyNum,sizeof(int));
-        data+=sizeof(int);
-        memcpy(data,&node->parentAddr,sizeof(Addr));
+    Page* page = frame->page;
+    Byte* data = page->data;
+    page->usedByte = PAGE_BODY_LEN;
+    page->usedLen=0;
+    page->usedByteList[0].addr=0;
+    page->usedByteList[0].len=0;
+    ushort flag = page->flag;
+    flag = flag&(~SegmentType::mask)|SegmentType::IndexSeg&(~PageStatus::mask)|PageStatus::FullPage;
+    page->flag = flag;
+    data+=PAGE_HEAD_LEN;
+    data+=PAGE_ALIGN;
+    Byte* old = data;
+    int pos = 0;
+    data[pos++]=BPTNODE_MAGIC;
+    data[pos++]=node->fid;
+    data[pos++]=node->nodeType;
+    data[pos++]=BPTNODE_MAGIC;
+    data+=pos;
+    memcpy(data,&node->keyNum,sizeof(int));
+    data+=sizeof(int);
+    memcpy(data,&node->parentAddr,sizeof(Addr));
+    data+=sizeof(Addr);
+    memcpy(data,&node->previous,sizeof(Addr));
+    data+=sizeof(Addr);
+    memcpy(data,&node->next,sizeof(Addr));
+    data+=sizeof(Addr);
+    // 考虑到空间分配问题，keys和addr交替写入，先写addr[0],然后写入key[0]与addr[1],写keyNum次
+    memcpy(data,&node->children[0],sizeof(Addr));
+    data+=sizeof(Addr);
+    for(int i=0;i<node->keyNum;i++)
+    {
+        memcpy(data,node->keys[i],8);
+        data+=8;
+        memcpy(data,&node->children[i+1],sizeof(Addr));
         data+=sizeof(Addr);
-        memcpy(data,&node->previous,sizeof(Addr));
-        data+=sizeof(Addr);
-        memcpy(data,&node->next,sizeof(Addr));
-        data+=sizeof(Addr);
-        // 考虑到空间分配问题，keys和addr交替写入，先写addr[0],然后写入key[0]与addr[1],写keyNum次
-        memcpy(data,&node->children[0],sizeof(Addr));
-        data+=sizeof(Addr);
-        for(int i=0;i<node->keyNum;i++)
-        {
-            memcpy(data,node->keys[i],8);
-            data+=8;
-            memcpy(data,&node->children[i+1],sizeof(Addr));
-            data+=sizeof(Addr);
-        }
-        return data-old;
+    }
+    return data-old;
 }
-    short BPTree::transFrameToNode(BufferFrame* frame,BPTNode* node)
+short BPTree::transFrameToNode(BufferFrame* frame,BPTNode* node)
+{
+    Page* page = frame->page;
+    ushort flag = page->flag&SegmentType::mask;
+    if(flag!=SegmentType::IndexSeg)
     {
-            Page* page = frame->page;
-            ushort flag = page->flag&SegmentType::mask;
-            if(flag!=SegmentType::IndexSeg)
-            {
-                #ifdef DEBUG_INDEX
-                printf("warning: this page is not a index segment page! pageAddr %llx\n",frame->pageNo);
-                printf("flag %d\n",flag);
+#ifdef DEBUG_INDEX
+        printf("warning: this page is not a index segment page! pageAddr %llx\n",frame->pageNo);
+        printf("flag %d\n",flag);
 
-                #endif // DEBUG_INDEX
-            }
-            Byte* data = page->data;
-
-            data+=PAGE_HEAD_LEN;
-            data+=PAGE_ALIGN;
-                        Byte* old = data;
-            int pos = 0;
-            if(data[pos++]!=BPTNODE_MAGIC)
-            {
-                #ifdef DEBUG_INDEX
-                    printf("warning: this position is not a BPTNODE index! cnt = %d\n",cnt);
-                    for(int i=0;i<64;i++)
-                    {
-                        printf("%x ",data[i]);
-                        if((i+1)%16==0)printf("\n");
-                    }
-                exit(0);
-                #endif // DEBUG_INDEX
-                return data-old;
-            }
-            node->fid=data[pos++];
-            node->nodeType=data[pos++];
-            if(data[pos++]!=BPTNODE_MAGIC)
-            {
-                #ifdef DEBUG_INDEX
-                    printf("warning: this position is not a BPTNODE index2!\n");
-                #endif // DEBUG_INDEX
-                                return data-old;
-            }
-            //node->keyNum=data[pos++];
-            data+=pos;
-            memcpy(&node->keyNum,data,sizeof(int));
-            data+=sizeof(int);
-            memcpy(&node->parentAddr,data,sizeof(Addr));
-            data+=sizeof(Addr);
-            memcpy(&node->previous,data,sizeof(Addr));
-            data+=sizeof(Addr);
-            memcpy(&node->next,data,sizeof(Addr));
-            data+=sizeof(Addr);
-            memcpy(&node->children[0],data,sizeof(Addr));
-            data+=sizeof(Addr);
-            for(int i=0;i<node->keyNum;i++)
-            {
-                memcpy(node->keys[i],data,8);
-                data+=8;
-                memcpy(&node->children[i+1],data,sizeof(Addr));
-                data+=sizeof(Addr);
-            }
-            node->pageNo = frame->pageNo;
-            return data-old;
+#endif // DEBUG_INDEX
     }
+    Byte* data = page->data;
 
-    void BPTree::deletefromnoleaf(BPTNode* node)
+    data+=PAGE_HEAD_LEN;
+    data+=PAGE_ALIGN;
+    Byte* old = data;
+    int pos = 0;
+    if(data[pos++]!=BPTNODE_MAGIC)
     {
-
+#ifdef DEBUG_INDEX
+        printf("warning: this position is not a BPTNODE index! cnt = %d\n",cnt);
+        for(int i=0;i<64;i++)
+        {
+            printf("%x ",data[i]);
+            if((i+1)%16==0)printf("\n");
+        }
+        exit(0);
+#endif // DEBUG_INDEX
+        return data-old;
     }
-    /*
-    bool BPTree::deleteElem(IndexItem* item)
+    node->fid=data[pos++];
+    node->nodeType=data[pos++];
+    if(data[pos++]!=BPTNODE_MAGIC)
     {
+#ifdef DEBUG_INDEX
+        printf("warning: this position is not a BPTNODE index2!\n");
+#endif // DEBUG_INDEX
+        return data-old;
+    }
+    //node->keyNum=data[pos++];
+    data+=pos;
+    memcpy(&node->keyNum,data,sizeof(int));
+    data+=sizeof(int);
+    memcpy(&node->parentAddr,data,sizeof(Addr));
+    data+=sizeof(Addr);
+    memcpy(&node->previous,data,sizeof(Addr));
+    data+=sizeof(Addr);
+    memcpy(&node->next,data,sizeof(Addr));
+    data+=sizeof(Addr);
+    memcpy(&node->children[0],data,sizeof(Addr));
+    data+=sizeof(Addr);
+    for(int i=0;i<node->keyNum;i++)
+    {
+        memcpy(node->keys[i],data,8);
+        data+=8;
+        memcpy(&node->children[i+1],data,sizeof(Addr));
+        data+=sizeof(Addr);
+    }
+    node->pageNo = frame->pageNo;
+    return data-old;
+}
 
-        IndexItem *it = this->buildItem();
-        BPTIterator *iterator;
-        Addr currentnodeaddr;
-        iterator=dynamic_cast<BPTIterator*>findByKey(item->key);
-        int flag=0;
-        for(iterator->findFirst(it);iterator.hasNext();iterator.findNext(it))
-        {
-            if(it.addr==item.addr)
-                {
-                    flag=1;
-                    currentnodeaddr=PAGE_ADDR(iterator->currentNode->pageNo);
-                    break;
-                }
-        }
-        if(flag!=1)
-        {
-            printf("error:please choose an reality item to delete");
-        }
-        BufferFrame *bfm;
-        BPTNode *node=new BPTNode();
-        getBPTNode(node,currentnodeaddr);
-        if(node1->keyNum>MAX_KEY_SIZE/2)
-        {
-            int num;
-            num=findUpBound(data,node);
-        }
-        else
-        {
-            //BufferFrame *bfm1;
-            //bfm1=this->manager->requestPageForWrite(node1->previous);
-            BPTNode *nodepre=new BPTNode();
-            getBPTNode(nodepre,node1->previous);
-            BPTNode *nodenew=new BPTNode();
-            this->getNewBPTNode(nodenew,BPTNodeType::hasData);
-            leafcpy(nodepre,node,0,node->keyNum,);
-            //flushNode(nodepre);
+void BPTree::deletefromnoleaf(BPTNode* node)
+{
+
+}
+/*
+   bool BPTree::deleteElem(IndexItem* item)
+   {
+
+   IndexItem *it = this->buildItem();
+   BPTIterator *iterator;
+   Addr currentnodeaddr;
+   iterator=dynamic_cast<BPTIterator*>findByKey(item->key);
+   int flag=0;
+   for(iterator->findFirst(it);iterator.hasNext();iterator.findNext(it))
+   {
+   if(it.addr==item.addr)
+   {
+   flag=1;
+   currentnodeaddr=PAGE_ADDR(iterator->currentNode->pageNo);
+   break;
+   }
+   }
+   if(flag!=1)
+   {
+   printf("error:please choose an reality item to delete");
+   }
+   BufferFrame *bfm;
+   BPTNode *node=new BPTNode();
+   getBPTNode(node,currentnodeaddr);
+   if(node1->keyNum>MAX_KEY_SIZE/2)
+   {
+   int num;
+   num=findUpBound(data,node);
+   }
+   else
+   {
+//BufferFrame *bfm1;
+//bfm1=this->manager->requestPageForWrite(node1->previous);
+BPTNode *nodepre=new BPTNode();
+getBPTNode(nodepre,node1->previous);
+BPTNode *nodenew=new BPTNode();
+this->getNewBPTNode(nodenew,BPTNodeType::hasData);
+leafcpy(nodepre,node,0,node->keyNum,);
+//flushNode(nodepre);
 
 
-            delete nodepre;nodepre=0;
-            delete nodenew;nodenew=0;
+delete nodepre;nodepre=0;
+delete nodenew;nodenew=0;
 
-        }
-        delete node;node=0;
-    }*/
+}
+delete node;node=0;
+}*/
