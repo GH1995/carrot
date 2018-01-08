@@ -2,15 +2,14 @@
 
 A simple implementation of database system.
 
-Recommended debuging the code on Linux and code::blocks16.01.
-
 ## Getting Started
 
 ### Prerequisites
 
 We recommand to build the project on Ubuntu(Version >= 16.04). There is what tings you need to install:
+
 ```
-sudo apt install flex bison build-essential
+sudo apt install flex bison build-essential libtools -y
 ```
 
 ### Installing
