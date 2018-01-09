@@ -1,7 +1,7 @@
 # CarrotSQL
 
 A simple implementation of database system.
-[![Build Status](https://travis-ci.org/GH1995/carrot.png?branch=master)](https://travis-ci.org/GH1995/carrot
+[![Build Status](https://travis-ci.org/GH1995/carrot.png?branch=master)](https://travis-ci.org/GH1995/carrot)
 
 
 ## Getting Started
