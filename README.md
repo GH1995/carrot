@@ -1,12 +1,12 @@
 # CarrotSQL
 [![Build Status](https://travis-ci.org/GH1995/carrot.png?branch=master)](https://travis-ci.org/GH1995/carrot)
+[![HitCount](http://hits.dwyl.io/GH1995/carrot.svg)](http://hits.dwyl.io/GH1995/carrot)
 
 ## Getting Started
 
 ### Prerequisites
 
-We recommand to build the project on Ubuntu(Version >= 16.04). There is what tings you need to install:
-
+depends
 ```
 sudo apt install flex bison build-essential libtools -y
 ```
