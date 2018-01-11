@@ -1,6 +1,5 @@
 # CarrotSQL
 [![Build Status](https://travis-ci.org/GH1995/carrot.png?branch=master)](https://travis-ci.org/GH1995/carrot)
-[![HitCount](http://hits.dwyl.io/GH1995/carrot.svg)](http://hits.dwyl.io/GH1995/carrot)
 
 ## Getting Started
 
