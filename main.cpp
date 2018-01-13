@@ -32,7 +32,7 @@ extern meta_field_char mfcList[MAX_MFC_LIST]; //全局MFC属性列
 extern int mfListCursor;                      // 当创建一个表时，当前mf属性的游标
 extern int mfcListCursor;                     // 当创建一个表时，当前mfc属性的游标
 // extern int currentTableCursor; // 当DROP,SELECT,UPDATE一个表时，用来查找已有的表的游标
-//extern FILE * currentFp; // 当DROP,UPDATE,SELECT一个表时，用来记录当前表的文件指针。
+// extern FILE * currentFp; // 当DROP,UPDATE,SELECT一个表时，用来记录当前表的文件指针。
 extern currentTableFp ctfp;                       //当DROP,UPDATE,SELECT一个表时，用来记录当前表的文件指针。
 extern int currentTableListNum;                   // 现有表的数量
 extern fromList currentTableList[MAX_TABLE_LIST]; // 当前所有表的列表
@@ -256,7 +256,6 @@ int main(int ac, char **av)
 
     yyset_in(in_f, pstate.scanner);
 
-    <<<<<<< HEAD
         /*
            if(!yyparse(pstate.scanner, &pstate)) {
            printf("SQL parse worked\n");
@@ -291,38 +290,5 @@ int main(int ac, char **av)
             cout << "time: " << totaltime << "s" << endl;
             cout << "================================================================================" << endl;
         }
-    =======
-        /*
-           if(!yyparse(pstate.scanner, &pstate)) {
-           printf("SQL parse worked\n");
-           return 0;
-           } else {
-           printf("SQL parse failed\n");
-           return 1;
-           }
-           */
-        while (true)
-        {
-            clock_t starttime;
-            clock_t endtime;
-            double totaltime;
-            iniQuery();
-            cout<<"\nCarrotSQL >>\t" ;
-            if(!yyparse(pstate.scanner, &pstate)) {
-                printf("SQL parse worked\n");
-                //return 0;
-            } else {
-                printf("SQL parse failed\n");
-                //return 1;
-            }
-            cout<<endl;
-            starttime = clock();
-            doQuery();
-            endtime = clock();
-            totaltime=(double)((endtime-starttime)/(double)CLOCKS_PER_SEC);
-            cout<<"time: "<<totaltime<<"s"<<endl;
-            cout<<"================================================================================"<<endl;
-        }
-    >>>>>>> 9c66936ac2152a664a2b9e138e631ca0057cf56a
         return 0;
 }
